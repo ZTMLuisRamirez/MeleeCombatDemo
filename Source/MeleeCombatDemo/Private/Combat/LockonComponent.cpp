@@ -45,12 +45,13 @@ void ULockonComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 		FVector::Distance(CurrentLocation, TargetLocation)
 	};
 
-	//if (TargetDistance >= BreakDistance)
-	//{
-	//	EndLockon();
-	//	return;
-	//}
+	if (TargetDistance >= BreakDistance)
+	{
+		EndLockon();
+		return;
+	}
 
+	// Otherwise, rotate toward current lockon target
 	FVector LowerTargetLocation{
 		TargetLocation.X, TargetLocation.Y, TargetLocation.Z - 125
 	};
@@ -168,4 +169,3 @@ void ULockonComponent::ToggleLockon(float radius)
 		StartLockon(radius);
 	}
 }
-

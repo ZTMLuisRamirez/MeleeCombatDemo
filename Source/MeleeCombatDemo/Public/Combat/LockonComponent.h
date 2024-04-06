@@ -26,6 +26,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	bool bShouldAutofocus{ true };
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	double BreakDistance{ 1000.0 };
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
