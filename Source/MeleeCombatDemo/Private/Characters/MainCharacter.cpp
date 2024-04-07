@@ -3,6 +3,7 @@
 
 #include "Characters/MainCharacter.h"
 #include "Combat/LockonComponent.h"
+#include "Combat/AttackComponent.h"
 #include "Animations/PlayerAnimInstance.h"
 
 // Sets default values
@@ -20,13 +21,25 @@ void AMainCharacter::BeginPlay()
 	
 	LockonComp = FindComponentByClass<ULockonComponent>();
 	PlayerAnim = Cast<UPlayerAnimInstance>(GetMesh()->GetAnimInstance());
+	AttackComp = FindComponentByClass<UAttackComponent>();
 
-	if (PlayerAnim)
+	if (PlayerAnim != nullptr)
 	{
 		/*FScriptDelegate ScriptDelegate;
 		ScriptDelegate.BindUFunction(PlayerAnim, "HandleUpdatedTarget"); */
 		LockonComp->OnUpdatedTargetDelegate.AddDynamic(
 			PlayerAnim, &UPlayerAnimInstance::HandleUpdatedTarget
+		);
+	}
+
+	if (AttackComp != nullptr)
+	{
+		PlayerAnim->OnResetAttackComboDelegate.AddDynamic(
+			AttackComp, &UAttackComponent::HandleResetAttackCombo
+		);
+
+		PlayerAnim->OnResetAttackDelegate.AddDynamic(
+			AttackComp, &UAttackComponent::HandleResetAttack
 		);
 	}
 }

@@ -43,3 +43,13 @@ void UPlayerAnimInstance::CombatCheck()
 		PawnRef->GetActorRotation()
 	);
 }
+
+void UPlayerAnimInstance::RaiseResetAttackCombo()
+{
+	OnResetAttackComboDelegate.Broadcast();
+}
+
+void UPlayerAnimInstance::RaiseResetAttack()
+{
+	OnResetAttackDelegate.Broadcast();
+}

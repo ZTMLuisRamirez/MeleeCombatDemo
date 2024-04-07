@@ -13,6 +13,7 @@ class MELEECOMBATDEMO_API AMainCharacter : public ACharacter
 
 	class ULockonComponent* LockonComp;
 	class UPlayerAnimInstance* PlayerAnim; 
+	class UAttackComponent* AttackComp;
 
 public:
 	// Sets default values for this character's properties
