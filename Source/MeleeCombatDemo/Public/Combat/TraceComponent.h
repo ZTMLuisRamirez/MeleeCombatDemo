@@ -12,9 +12,31 @@ class MELEECOMBATDEMO_API UTraceComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
+	APawn* PawnRef;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	float Radius{ 15.0f };
+
+	USkeletalMeshComponent* SkeletalComp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	FName StartSocket;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	FName EndSocket;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	FName RotationSocket;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	bool bDebugMode{ false };
+
 public:	
 	// Sets default values for this component's properties
 	UTraceComponent();
+
+	UPROPERTY(BlueprintReadWrite)
+	bool bIsAttacking{ false };
 
 protected:
 	// Called when the game starts

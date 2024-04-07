@@ -5,6 +5,7 @@
 #include "Combat/LockonComponent.h"
 #include "Combat/AttackComponent.h"
 #include "Animations/PlayerAnimInstance.h"
+#include "Combat/TraceComponent.h"
 
 // Sets default values
 AMainCharacter::AMainCharacter()
@@ -22,6 +23,7 @@ void AMainCharacter::BeginPlay()
 	LockonComp = FindComponentByClass<ULockonComponent>();
 	PlayerAnim = Cast<UPlayerAnimInstance>(GetMesh()->GetAnimInstance());
 	AttackComp = FindComponentByClass<UAttackComponent>();
+	TraceComp = FindComponentByClass<UTraceComponent>(); 
 
 	if (PlayerAnim != nullptr)
 	{
@@ -56,5 +58,10 @@ void AMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+void AMainCharacter::ToggleTrace(bool bIsTracing)
+{
+	TraceComp->bIsAttacking = bIsTracing;
 }
 

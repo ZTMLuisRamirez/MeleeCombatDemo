@@ -4,16 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Interfaces/AttackTracing.h"
 #include "MainCharacter.generated.h"
 
 UCLASS()
-class MELEECOMBATDEMO_API AMainCharacter : public ACharacter
+class MELEECOMBATDEMO_API AMainCharacter : public ACharacter, public IAttackTracing
 {
 	GENERATED_BODY()
 
 	class ULockonComponent* LockonComp;
 	class UPlayerAnimInstance* PlayerAnim; 
 	class UAttackComponent* AttackComp;
+	class UTraceComponent* TraceComp;
 
 public:
 	// Sets default values for this character's properties
@@ -30,4 +32,5 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	virtual void ToggleTrace(bool bIsTracing) override;
 };
