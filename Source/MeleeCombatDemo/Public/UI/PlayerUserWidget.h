@@ -16,10 +16,12 @@ class MELEECOMBATDEMO_API UPlayerUserWidget : public UUserWidget
 	GENERATED_BODY()
 	
 	UProgressBar* StaminaProgressBar;
+
+	class UStatsComponent* StatsComp;
 protected:
 	void NativeConstruct();
 
 public:
-	UFUNCTION(BlueprintCallable)
-	void UpdateStaminaProgressBar(float CurrentVal, float MaxVal);
+	UFUNCTION()
+	void UpdateStaminaProgressBar(enum StatType TargetStat, float NewVal);
 };

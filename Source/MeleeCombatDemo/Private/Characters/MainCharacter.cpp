@@ -6,6 +6,7 @@
 #include "Combat/AttackComponent.h"
 #include "Animations/PlayerAnimInstance.h"
 #include "Combat/TraceComponent.h"
+#include "Characters/StatsComponent.h"
 #include "Blueprint/UserWidget.h"
 
 // Sets default values
@@ -25,6 +26,7 @@ void AMainCharacter::BeginPlay()
 	PlayerAnim = Cast<UPlayerAnimInstance>(GetMesh()->GetAnimInstance());
 	AttackComp = FindComponentByClass<UAttackComponent>();
 	TraceComp = FindComponentByClass<UTraceComponent>(); 
+	StatsComp = FindComponentByClass<UStatsComponent>();
 
 	if (PlayerAnim != nullptr)
 	{
@@ -44,9 +46,15 @@ void AMainCharacter::BeginPlay()
 		PlayerAnim->OnResetAttackDelegate.AddDynamic(
 			AttackComp, &UAttackComponent::HandleResetAttack
 		);
-	}
 
-	
+		AttackComp->OnAttackPerformedDelegate.AddDynamic(
+			StatsComp, &UStatsComponent::HandleAttackPerformed
+		);
+
+		AttackComp->OnAttackCompleteDelegate.AddDynamic(
+			StatsComp, &UStatsComponent::HandleAttackComplete
+		);
+	}
 }
 
 // Called every frame
@@ -76,5 +84,12 @@ void AMainCharacter::LoadPlayerHUD()
 	WidgetInstance->AddToViewport(10);
 	//UUserWidget* NewWidget = CreateWidget(GetWorld(), DeathWidget);
 	//NewWidget->AddToViewport(9999); // Z-order, this just makes it render on the very top./
+}
+
+bool AMainCharacter::HasEnoughStamina(float RequiredCost)
+{
+	if (StatsComp == nullptr) { return true; }
+
+	return StatsComp->Stats[StatType::Stamina] >= RequiredCost;
 }
 

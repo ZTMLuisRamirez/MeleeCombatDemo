@@ -4,6 +4,7 @@
 #include "Combat/AttackComponent.h"
 #include "GameFramework/Character.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Interfaces/Stamina.h"
 
 // Sets default values for this component's properties
 UAttackComponent::UAttackComponent()
@@ -36,10 +37,20 @@ void UAttackComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 
 void UAttackComponent::ComboAttack()
 {
-	if (!bCanAttack /*|| CurrentStamina < AttackStaminaCost*/) { return; }
+	AActor* ActorRef = GetOwner();
+	bool hasLockonInterface = ActorRef->GetClass()
+		->ImplementsInterface(UStamina::StaticClass());
+
+	if (hasLockonInterface) 
+	{ 
+		IStamina* IStaminaRef = Cast<IStamina>(ActorRef);
+
+		if (IStaminaRef && !IStaminaRef->HasEnoughStamina(StaminaCost)) { return; }
+	}
+
+	if (!bCanAttack) { return; }
 
 	bCanAttack = false;
-	//CanRegen = false;
 
 	int32 MaxCombo = AttackAnimations.Num();
 
@@ -53,16 +64,13 @@ void UAttackComponent::ComboAttack()
 		ComboCounter, -1, (MaxCombo - 1)
 	);
 
-	//CurrentStamina -= AttackStaminaCost;
-	
+	OnAttackPerformedDelegate.Broadcast(StaminaCost);
 }
 
 void UAttackComponent::HandleResetAttackCombo()
 {
-	//ACharacter* OwnerCharacter = Cast<ACharacter>(GetOwner());
-
 	ComboCounter = 0;
-	//OwnerCharacter->CanRegen = true;
+	OnAttackCompleteDelegate.Broadcast();
 }
 
 void UAttackComponent::HandleResetAttack()

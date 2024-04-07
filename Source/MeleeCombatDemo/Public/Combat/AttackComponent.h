@@ -6,6 +6,12 @@
 #include "Components/ActorComponent.h"
 #include "AttackComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(
+	FOnAttackPerformedSignature, float, Amount
+);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAttackCompleteSignature);
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MELEECOMBATDEMO_API UAttackComponent : public UActorComponent
@@ -20,9 +26,16 @@ class MELEECOMBATDEMO_API UAttackComponent : public UActorComponent
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	bool bCanAttack{ true };
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	float StaminaCost{ 15.0f };
 public:	
 	// Sets default values for this component's properties
 	UAttackComponent();
+
+	FOnAttackPerformedSignature OnAttackPerformedDelegate;
+
+	FOnAttackCompleteSignature OnAttackCompleteDelegate;
 
 protected:
 	// Called when the game starts

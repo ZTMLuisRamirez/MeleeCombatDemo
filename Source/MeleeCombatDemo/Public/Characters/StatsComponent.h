@@ -16,11 +16,20 @@ enum StatType
 	MaxStamina UMETA(DisplayName = "Max Stamina")
 };
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
+	FOnUpdateStatSignature, StatType, TargetStat, float, NewVal
+);
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MELEECOMBATDEMO_API UStatsComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	float StaminaRegenRate{ 10.0 };
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	bool bCanRegen{ true };
 public:	
 	// Sets default values for this component's properties
 	UStatsComponent();
@@ -35,4 +44,16 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	TMap<TEnumAsByte<StatType>, float> Stats;
+
+	UFUNCTION(BlueprintCallable)
+	void RegenStamina();
+
+	UPROPERTY(BlueprintAssignable)
+	FOnUpdateStatSignature OnUpdateStatDelegate;
+
+	UFUNCTION()
+	void HandleAttackPerformed(float Amount);
+
+	UFUNCTION()
+	void HandleAttackComplete();
 };

@@ -5,10 +5,11 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Interfaces/AttackTracing.h"
+#include "Interfaces/Stamina.h"
 #include "MainCharacter.generated.h"
 
 UCLASS()
-class MELEECOMBATDEMO_API AMainCharacter : public ACharacter, public IAttackTracing
+class MELEECOMBATDEMO_API AMainCharacter : public ACharacter, public IAttackTracing, public IStamina
 {
 	GENERATED_BODY()
 
@@ -16,6 +17,7 @@ class MELEECOMBATDEMO_API AMainCharacter : public ACharacter, public IAttackTrac
 	class UPlayerAnimInstance* PlayerAnim; 
 	class UAttackComponent* AttackComp;
 	class UTraceComponent* TraceComp;
+	class UStatsComponent* StatsComp;
 
 	UPROPERTY(EditAnywhere, meta = (MetaClass = "UserWidget"))
 	TSubclassOf<UUserWidget> PlayerWidgetTemplate;
@@ -39,4 +41,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void LoadPlayerHUD();
+
+	virtual bool HasEnoughStamina(float RequiredCost) override;
 };

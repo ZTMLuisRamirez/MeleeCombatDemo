@@ -2,6 +2,7 @@
 
 
 #include "Characters/StatsComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values for this component's properties
 UStatsComponent::UStatsComponent()
@@ -32,3 +33,42 @@ void UStatsComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 	// ...
 }
 
+void UStatsComponent::RegenStamina()
+{
+	if (!bCanRegen) 
+	{ 
+		OnUpdateStatDelegate.Broadcast(StatType::Stamina, Stats[StatType::Stamina]);
+		return; 
+	}
+
+	if (!Stats.Contains(StatType::Stamina) || !Stats.Contains(StatType::MaxStamina))
+	{
+		return;
+	}
+
+	Stats[StatType::Stamina] = UKismetMathLibrary::FInterpTo_Constant(
+		Stats[StatType::Stamina],
+		Stats[StatType::MaxStamina],
+		GetWorld()->DeltaTimeSeconds,
+		StaminaRegenRate
+	);
+
+	OnUpdateStatDelegate.Broadcast(StatType::Stamina, Stats[StatType::Stamina]);
+}
+
+void UStatsComponent::HandleAttackPerformed(float Amount)
+{
+	bCanRegen = false;
+
+	Stats[StatType::Stamina] -= Amount;
+	Stats[StatType::Stamina] = UKismetMathLibrary::Clamp(
+		Stats[StatType::Stamina],
+		0,
+		Stats[StatType::MaxStamina]
+	);
+}
+
+void UStatsComponent::HandleAttackComplete()
+{
+	bCanRegen = true;
+}
