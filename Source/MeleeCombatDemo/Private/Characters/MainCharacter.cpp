@@ -23,7 +23,6 @@ void AMainCharacter::BeginPlay()
 
 	if (PlayerAnim)
 	{
-		UE_LOG(LogClass, Warning, TEXT("Subscribed to anim instance"));
 		/*FScriptDelegate ScriptDelegate;
 		ScriptDelegate.BindUFunction(PlayerAnim, "HandleUpdatedTarget"); */
 		LockonComp->OnUpdatedTargetDelegate.AddDynamic(

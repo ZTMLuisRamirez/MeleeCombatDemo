@@ -29,7 +29,6 @@ void UPlayerAnimInstance::UpdateFalling()
 
 void UPlayerAnimInstance::HandleUpdatedTarget(AActor* NewTargetActorRef)
 {
-	UE_LOG(LogClass, Warning, TEXT("UPDATED TARGET"));
 	bIsInCombat = IsValid(NewTargetActorRef);
 }
 

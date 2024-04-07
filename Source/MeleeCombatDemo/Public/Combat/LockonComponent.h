@@ -51,4 +51,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void ToggleLockon(float radius);
+
+	UFUNCTION(BlueprintCallable)
+	void SwitchTarget(enum ELockonDirection InputDirection);
 };

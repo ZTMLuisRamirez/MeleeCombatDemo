@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Combat/ELockonDirection.h"
 
 // Sets default values for this component's properties
 ULockonComponent::ULockonComponent()
@@ -174,4 +175,67 @@ void ULockonComponent::ToggleLockon(float radius)
 	}
 }
 
+void ULockonComponent::SwitchTarget(ELockonDirection InputDirection)
+{
+	if (!IsValid(CurrentTargetActor)) { return; }
 
+	AActor* OriginalTarget{ CurrentTargetActor };
+	Targets.Remove(CurrentTargetActor);
+
+	bool bHasFoundNewTarget{ false };
+
+	double ClosestSwitchTargetDistance{ std::numeric_limits<double>::max() };
+	FVector CurrentLocation{ CurrentTargetActor->GetActorLocation() };
+
+	for (AActor* PotentialTarget : Targets)
+	{
+		FVector PotentialTargetLocation{ PotentialTarget->GetActorLocation() };
+		FVector Difference{ CurrentLocation - PotentialTargetLocation };
+		Difference.Normalize();
+
+		float result{ static_cast<float>(
+			FVector::DotProduct(
+				CurrentTargetActor->GetActorRightVector(), Difference
+			)
+		) };
+
+		if (
+			(result < 0 && InputDirection == ELockonDirection::Left) ||
+			(result > 0 && InputDirection == ELockonDirection::Right)
+		)
+		{
+			continue;
+		}
+
+		double TargetDistance{ 
+			FVector::Distance(CurrentLocation, PotentialTargetLocation)
+		};
+
+		if (TargetDistance <= ClosestSwitchTargetDistance)
+		{
+			//ILockOnTargetInterface* IOriginalTarget = Cast<ILockOnTargetInterface>(TargetActor);
+			//IOriginalTarget->OnDeselect();
+
+			ClosestSwitchTargetDistance = TargetDistance;
+			CurrentTargetActor = PotentialTarget;
+			bHasFoundNewTarget = true;
+
+			//ILockOnTargetInterface* INewTarget = Cast<ILockOnTargetInterface>(TargetActor);
+			//INewTarget->OnSelect();
+		}
+
+		/*UE_LOG(
+			LogClass,
+			Warning,
+			TEXT("Target: %s Result: %f"),
+			*potentialTarget->GetActorNameOrLabel(),
+			result
+		);*/
+	}
+
+	if (bHasFoundNewTarget)
+	{
+		Targets.AddUnique(OriginalTarget);
+		OnUpdatedTargetDelegate.Broadcast(CurrentTargetActor);
+	}
+}
