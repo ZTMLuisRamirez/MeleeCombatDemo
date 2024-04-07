@@ -25,10 +25,22 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bIsFalling{ false };
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float Direction{ 0 };
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bIsInCombat{ false };
+
 public:
 	UFUNCTION(BlueprintCallable, Meta = (HideSelfPin = "true"))
 	void UpdateSpeedWithVelocity();
 
 	UFUNCTION(BlueprintCallable, Meta = (HideSelfPin = "true"))
 	void UpdateFalling();
+
+	UFUNCTION()
+	void HandleUpdatedTarget(AActor* NewTargetActorRef);
+
+	UFUNCTION(BlueprintCallable, Meta = (HideSelfPin = "true"))
+	void CombatCheck();
 };

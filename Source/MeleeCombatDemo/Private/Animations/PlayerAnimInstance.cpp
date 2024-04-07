@@ -26,3 +26,21 @@ void UPlayerAnimInstance::UpdateFalling()
 	UPawnMovementComponent* MovementComponent = PawnRef->GetMovementComponent();
 	bIsFalling = MovementComponent->IsFalling();
 }
+
+void UPlayerAnimInstance::HandleUpdatedTarget(AActor* NewTargetActorRef)
+{
+	UE_LOG(LogClass, Warning, TEXT("UPDATED TARGET"));
+	bIsInCombat = IsValid(NewTargetActorRef);
+}
+
+void UPlayerAnimInstance::CombatCheck()
+{
+	if (!IsValid(PawnRef)) { return; }
+
+	if (!bIsInCombat) { return; }
+
+	Direction = CalculateDirection(
+		PawnRef->GetVelocity(),
+		PawnRef->GetActorRotation()
+	);
+}

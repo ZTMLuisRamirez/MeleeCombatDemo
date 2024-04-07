@@ -136,6 +136,8 @@ void ULockonComponent::StartLockon(float Radius)
 	//ILockOnTargetInterface* TargetInterface = Cast<ILockOnTargetInterface>(TargetActor);
 
 	//TargetInterface->OnSelect();
+
+	OnUpdatedTargetDelegate.Broadcast(CurrentTargetActor);
 }
 
 void ULockonComponent::EndLockon()
@@ -156,6 +158,8 @@ void ULockonComponent::EndLockon()
 
 	MovementComp->bOrientRotationToMovement = true;
 	MovementComp->bUseControllerDesiredRotation = false;
+
+	OnUpdatedTargetDelegate.Broadcast(CurrentTargetActor);
 }
 
 void ULockonComponent::ToggleLockon(float radius)
@@ -169,3 +173,5 @@ void ULockonComponent::ToggleLockon(float radius)
 		StartLockon(radius);
 	}
 }
+
+

@@ -6,6 +6,9 @@
 #include "Components/ActorComponent.h"
 #include "LockonComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(
+	FOnUpdatedTargetSignature, AActor*, NewTargetActorRef
+);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MELEECOMBATDEMO_API ULockonComponent : public UActorComponent
@@ -28,6 +31,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	double BreakDistance{ 1000.0 };
+
+	UPROPERTY()
+	FOnUpdatedTargetSignature OnUpdatedTargetDelegate;
 
 protected:
 	// Called when the game starts
