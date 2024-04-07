@@ -17,6 +17,9 @@ class MELEECOMBATDEMO_API AMainCharacter : public ACharacter, public IAttackTrac
 	class UAttackComponent* AttackComp;
 	class UTraceComponent* TraceComp;
 
+	UPROPERTY(EditAnywhere, meta = (MetaClass = "UserWidget"))
+	TSubclassOf<UUserWidget> PlayerWidgetTemplate;
+
 public:
 	// Sets default values for this character's properties
 	AMainCharacter();
@@ -33,4 +36,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	virtual void ToggleTrace(bool bIsTracing) override;
+
+	UFUNCTION(BlueprintCallable)
+	void LoadPlayerHUD();
 };

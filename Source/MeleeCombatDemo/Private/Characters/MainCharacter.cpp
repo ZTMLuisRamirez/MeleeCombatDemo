@@ -6,6 +6,7 @@
 #include "Combat/AttackComponent.h"
 #include "Animations/PlayerAnimInstance.h"
 #include "Combat/TraceComponent.h"
+#include "Blueprint/UserWidget.h"
 
 // Sets default values
 AMainCharacter::AMainCharacter()
@@ -44,6 +45,8 @@ void AMainCharacter::BeginPlay()
 			AttackComp, &UAttackComponent::HandleResetAttack
 		);
 	}
+
+	
 }
 
 // Called every frame
@@ -63,5 +66,15 @@ void AMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 void AMainCharacter::ToggleTrace(bool bIsTracing)
 {
 	TraceComp->bIsAttacking = bIsTracing;
+}
+
+void AMainCharacter::LoadPlayerHUD()
+{
+	UUserWidget* WidgetInstance = UUserWidget::CreateWidgetInstance(
+		*GetWorld(), PlayerWidgetTemplate, "Player HUD"
+	);
+	WidgetInstance->AddToViewport(10);
+	//UUserWidget* NewWidget = CreateWidget(GetWorld(), DeathWidget);
+	//NewWidget->AddToViewport(9999); // Z-order, this just makes it render on the very top./
 }
 
