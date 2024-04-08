@@ -3,6 +3,7 @@
 
 #include "Characters/StatsComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 // Sets default values for this component's properties
 UStatsComponent::UStatsComponent()
@@ -69,6 +70,26 @@ void UStatsComponent::HandleAttackPerformed(float Amount)
 }
 
 void UStatsComponent::HandleAttackComplete()
+{
+	DelayStaminaRegen();
+}
+
+void UStatsComponent::DelayStaminaRegen()
+{
+	FLatentActionInfo FunctionInfo;
+	FunctionInfo.CallbackTarget = this;
+	FunctionInfo.ExecutionFunction = "EnableRegen";
+	FunctionInfo.Linkage = 0; 
+	FunctionInfo.UUID = 100; 
+
+	UKismetSystemLibrary::RetriggerableDelay(
+		GetWorld(),
+		StaminaDelayTime,
+		FunctionInfo
+	);
+}
+
+void UStatsComponent::EnableRegen()
 {
 	bCanRegen = true;
 }

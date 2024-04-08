@@ -53,4 +53,10 @@ public:
 	void LoadPlayerHUD();
 
 	virtual bool HasEnoughStamina(float RequiredCost) override;
+
+	UFUNCTION(BlueprintCallable, Meta = (HideSelfPin = "true"))
+	void Sprint();
+
+	UFUNCTION(BlueprintCallable, Meta = (HideSelfPin = "true"))
+	void Walk();
 };

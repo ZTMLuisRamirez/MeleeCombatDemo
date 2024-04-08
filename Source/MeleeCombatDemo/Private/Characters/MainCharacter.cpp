@@ -8,6 +8,7 @@
 #include "Combat/TraceComponent.h"
 #include "Characters/StatsComponent.h"
 #include "Blueprint/UserWidget.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 AMainCharacter::AMainCharacter()
@@ -37,14 +38,6 @@ void AMainCharacter::BeginPlay()
 		PlayerAnim->OnResetAttackDelegate.AddDynamic(
 			AttackComp, &UAttackComponent::HandleResetAttack
 		);
-
-		/*AttackComp->OnAttackPerformedDelegate.AddDynamic(
-			StatsComp, &UStatsComponent::HandleAttackPerformed
-		);
-
-		AttackComp->OnAttackCompleteDelegate.AddDynamic(
-			StatsComp, &UStatsComponent::HandleAttackComplete
-		);*/
 	}
 }
 
@@ -87,3 +80,24 @@ bool AMainCharacter::HasEnoughStamina(float RequiredCost)
 	return StatsComp->Stats[StatType::Stamina] >= RequiredCost;
 }
 
+void AMainCharacter::Sprint()
+{
+	if (!HasEnoughStamina(1.0f))
+	{
+		Walk();
+		return;
+	}
+
+	if (GetCharacterMovement()->Velocity.Length() < 1) { return; }
+
+	GetCharacterMovement()->MaxWalkSpeed = StatsComp->Stats[StatType::SprintSpeed];
+	StatsComp->Stats[StatType::Stamina] -= 0.1f;
+	StatsComp->bCanRegen = false;
+}
+
+void AMainCharacter::Walk()
+{
+	GetCharacterMovement()->MaxWalkSpeed = StatsComp->Stats[StatType::WalkSpeed];
+
+	StatsComp->DelayStaminaRegen(); 
+}

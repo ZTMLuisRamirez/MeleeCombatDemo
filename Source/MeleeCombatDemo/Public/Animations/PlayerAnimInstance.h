@@ -31,10 +31,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float Direction{ 0 };
 
+public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bIsInCombat{ false };
 
-public:
 	UPROPERTY(BlueprintAssignable)
 	FOnResetAttackComboSignature OnResetAttackComboDelegate;
 

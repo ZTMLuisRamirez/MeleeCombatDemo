@@ -13,7 +13,9 @@ enum StatType
 	MaxHealth UMETA(DisplayName = "Max Health"),
 	Strength UMETA(DisplayName = "Strength"),
 	Stamina UMETA(DisplayName = "Stamina"),
-	MaxStamina UMETA(DisplayName = "Max Stamina")
+	MaxStamina UMETA(DisplayName = "Max Stamina"),
+	WalkSpeed UMETA(DisplayName = "Walk Speed"),
+	SprintSpeed UMETA(DisplayName = "Sprint Speed")
 };
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
@@ -26,13 +28,16 @@ class MELEECOMBATDEMO_API UStatsComponent : public UActorComponent
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	float StaminaRegenRate{ 10.0 };
+	float StaminaRegenRate{ 10.0f };
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-	bool bCanRegen{ true };
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	float StaminaDelayTime{ 2.0f };
 public:	
 	// Sets default values for this component's properties
 	UStatsComponent();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	bool bCanRegen{ true };
 
 protected:
 	// Called when the game starts
@@ -56,4 +61,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void HandleAttackComplete();
+
+	void DelayStaminaRegen();
+
+	UFUNCTION()
+	void EnableRegen();
 };
