@@ -4,6 +4,8 @@
 #include "Combat/TraceComponent.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Characters/StatsComponent.h"
+#include "Interfaces/Combat.h"
 
 // Sets default values for this component's properties
 UTraceComponent::UTraceComponent()
@@ -80,26 +82,38 @@ void UTraceComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 		);
 	}
 
-	//if (!hasFoundTargets) { return; }
+	if (!hasFoundTargets) { return; }
 
-	//// To Fix
-	//UStatsComponent* StatsComp = PawnRef->FindComponentByClass<UStatsComponent>();
-	//FDamageEvent TargetAttackedEvent{ };
+	// To Fix
 
-	//for (FHitResult Hit : OutResults)
-	//{
-	//	AActor* TargetActor = Hit.GetActor();
+	float CharacterDamage = 0.0f;
+	ICombat* CombatRef = Cast<ICombat>(PawnRef);
+	
+	if (CombatRef)
+	{
+		CharacterDamage = CombatRef->GetDamage();
+	}
+	
+	FDamageEvent TargetAttackedEvent{ };
 
-	//	if (IgnoreTargets.Contains(TargetActor)) { continue; }
+	for (FHitResult Hit : OutResults)
+	{
+		AActor* TargetActor = Hit.GetActor();
+		
+		if (IgnoreTargets.Contains(TargetActor)) { continue; }
+		
+		TargetActor->TakeDamage(
+			CharacterDamage,
+			TargetAttackedEvent,
+			GetOwner()->GetInstigatorController(),
+			PawnRef
+		);
 
-	//	TargetActor->TakeDamage(
-	//		StatsComp->Damage,
-	//		TargetAttackedEvent,
-	//		GetOwner()->GetInstigatorController(),
-	//		PawnRef
-	//	);
-
-	//	IgnoreTargets.AddUnique(TargetActor);
-	//}
+		IgnoreTargets.AddUnique(TargetActor);
+	}
 }
 
+void UTraceComponent::HandleResetAttack()
+{
+	IgnoreTargets.Empty();
+}

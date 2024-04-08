@@ -38,6 +38,10 @@ void AMainCharacter::BeginPlay()
 		PlayerAnim->OnResetAttackDelegate.AddDynamic(
 			AttackComp, &UAttackComponent::HandleResetAttack
 		);
+
+		PlayerAnim->OnResetAttackDelegate.AddDynamic(
+			TraceComp, &UTraceComponent::HandleResetAttack
+		);
 	}
 }
 
@@ -100,4 +104,9 @@ void AMainCharacter::Walk()
 	GetCharacterMovement()->MaxWalkSpeed = StatsComp->Stats[StatType::WalkSpeed];
 
 	StatsComp->DelayStaminaRegen(); 
+}
+
+float AMainCharacter::GetDamage()
+{
+	return StatsComp->Stats[StatType::Strength];
 }

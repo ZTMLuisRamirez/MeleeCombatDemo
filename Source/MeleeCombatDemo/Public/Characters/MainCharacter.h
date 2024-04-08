@@ -6,10 +6,11 @@
 #include "GameFramework/Character.h"
 #include "Interfaces/AttackTracing.h"
 #include "Interfaces/Stamina.h"
+#include "Interfaces/Combat.h"
 #include "MainCharacter.generated.h"
 
 UCLASS()
-class MELEECOMBATDEMO_API AMainCharacter : public ACharacter, public IAttackTracing, public IStamina
+class MELEECOMBATDEMO_API AMainCharacter : public ACharacter, public IAttackTracing, public IStamina, public ICombat
 {
 	GENERATED_BODY()
 
@@ -59,4 +60,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Meta = (HideSelfPin = "true"))
 	void Walk();
+
+	virtual float GetDamage() override;
 };
