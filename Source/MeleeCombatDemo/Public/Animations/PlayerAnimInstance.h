@@ -6,10 +6,7 @@
 #include "Animation/AnimInstance.h"
 #include "PlayerAnimInstance.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE(
-	FOnResetAttackComboSignature,
-	UPlayerAnimInstance, OnResetAttackComboDelegate
-);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnResetAttackComboSignature);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnResetAttackSignature);
 
 /**

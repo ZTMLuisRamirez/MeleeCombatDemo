@@ -16,6 +16,9 @@ AMainCharacter::AMainCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 	
 	LockonComp = CreateDefaultSubobject<ULockonComponent>(TEXT("LockonComponent"));
+	AttackComp = CreateDefaultSubobject<UAttackComponent>(TEXT("AttackComponent"));
+	TraceComp = CreateDefaultSubobject<UTraceComponent>(TEXT("TraceComponent"));
+	StatsComp = CreateDefaultSubobject<UStatsComponent>(TEXT("StatsComponent"));
 }
 
 // Called when the game starts or when spawned
@@ -24,9 +27,9 @@ void AMainCharacter::BeginPlay()
 	Super::BeginPlay();
 	
 	PlayerAnim = Cast<UPlayerAnimInstance>(GetMesh()->GetAnimInstance());
-	AttackComp = FindComponentByClass<UAttackComponent>();
+	/*AttackComp = FindComponentByClass<UAttackComponent>();
 	TraceComp = FindComponentByClass<UTraceComponent>(); 
-	StatsComp = FindComponentByClass<UStatsComponent>();
+	StatsComp = FindComponentByClass<UStatsComponent>();*/
 
 	if (AttackComp != nullptr)
 	{

@@ -14,8 +14,6 @@ class MELEECOMBATDEMO_API AMainCharacter : public ACharacter, public IAttackTrac
 	GENERATED_BODY()
 
 	class UPlayerAnimInstance* PlayerAnim; 
-	class UTraceComponent* TraceComp;
-	class UStatsComponent* StatsComp;
 
 	UPROPERTY(EditAnywhere, meta = (MetaClass = "UserWidget"))
 	TSubclassOf<UUserWidget> PlayerWidgetTemplate;
@@ -29,6 +27,12 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UAttackComponent* AttackComp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UTraceComponent* TraceComp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UStatsComponent* StatsComp;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
