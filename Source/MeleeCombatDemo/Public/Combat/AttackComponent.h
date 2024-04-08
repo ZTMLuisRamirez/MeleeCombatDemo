@@ -6,11 +6,18 @@
 #include "Components/ActorComponent.h"
 #include "AttackComponent.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(
-	FOnAttackPerformedSignature, float, Amount
+class UAttackComponent;
+
+DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(
+	FOnAttackPerformedSignature, 
+	UAttackComponent, OnAttackPerformedDelegate,
+	float, Amount
 );
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAttackCompleteSignature);
+DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE(
+	FOnAttackCompleteSignature,
+	UAttackComponent, OnAttackCompleteDelegate
+);
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -33,8 +40,10 @@ public:
 	// Sets default values for this component's properties
 	UAttackComponent();
 
+	UPROPERTY(BlueprintAssignable)
 	FOnAttackPerformedSignature OnAttackPerformedDelegate;
 
+	UPROPERTY(BlueprintAssignable)
 	FOnAttackCompleteSignature OnAttackCompleteDelegate;
 
 protected:

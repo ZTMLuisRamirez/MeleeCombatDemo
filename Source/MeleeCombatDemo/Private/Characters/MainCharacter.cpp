@@ -27,11 +27,8 @@ void AMainCharacter::BeginPlay()
 	Super::BeginPlay();
 	
 	PlayerAnim = Cast<UPlayerAnimInstance>(GetMesh()->GetAnimInstance());
-	/*AttackComp = FindComponentByClass<UAttackComponent>();
-	TraceComp = FindComponentByClass<UTraceComponent>(); 
-	StatsComp = FindComponentByClass<UStatsComponent>();*/
 
-	if (AttackComp != nullptr)
+	if (PlayerAnim != nullptr)
 	{
 		PlayerAnim->OnResetAttackComboDelegate.AddDynamic(
 			AttackComp, &UAttackComponent::HandleResetAttackCombo
@@ -41,13 +38,13 @@ void AMainCharacter::BeginPlay()
 			AttackComp, &UAttackComponent::HandleResetAttack
 		);
 
-		AttackComp->OnAttackPerformedDelegate.AddDynamic(
+		/*AttackComp->OnAttackPerformedDelegate.AddDynamic(
 			StatsComp, &UStatsComponent::HandleAttackPerformed
 		);
 
 		AttackComp->OnAttackCompleteDelegate.AddDynamic(
 			StatsComp, &UStatsComponent::HandleAttackComplete
-		);
+		);*/
 	}
 }
 
@@ -87,8 +84,6 @@ void AMainCharacter::LoadPlayerHUD()
 
 bool AMainCharacter::HasEnoughStamina(float RequiredCost)
 {
-	if (StatsComp == nullptr) { return true; }
-
 	return StatsComp->Stats[StatType::Stamina] >= RequiredCost;
 }
 

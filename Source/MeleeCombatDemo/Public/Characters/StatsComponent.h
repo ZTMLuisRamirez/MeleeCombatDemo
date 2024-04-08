@@ -51,9 +51,9 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FOnUpdateStatSignature OnUpdateStatDelegate;
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void HandleAttackPerformed(float Amount);
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void HandleAttackComplete();
 };
