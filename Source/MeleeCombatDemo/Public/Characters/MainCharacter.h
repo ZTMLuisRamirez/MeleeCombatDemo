@@ -13,9 +13,7 @@ class MELEECOMBATDEMO_API AMainCharacter : public ACharacter, public IAttackTrac
 {
 	GENERATED_BODY()
 
-	class ULockonComponent* LockonComp;
 	class UPlayerAnimInstance* PlayerAnim; 
-	class UAttackComponent* AttackComp;
 	class UTraceComponent* TraceComp;
 	class UStatsComponent* StatsComp;
 
@@ -26,6 +24,11 @@ public:
 	// Sets default values for this character's properties
 	AMainCharacter();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class ULockonComponent* LockonComp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UAttackComponent* AttackComp;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -36,6 +39,9 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UFUNCTION(BlueprintCallable)
+	class UPlayerAnimInstance* GetPlayerAnimInstance() const;
 
 	virtual void ToggleTrace(bool bIsTracing) override;
 

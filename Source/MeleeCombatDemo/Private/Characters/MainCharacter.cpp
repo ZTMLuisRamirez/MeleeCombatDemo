@@ -14,7 +14,8 @@ AMainCharacter::AMainCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	
+	LockonComp = CreateDefaultSubobject<ULockonComponent>(TEXT("LockonComponent"));
 }
 
 // Called when the game starts or when spawned
@@ -22,20 +23,10 @@ void AMainCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	LockonComp = FindComponentByClass<ULockonComponent>();
 	PlayerAnim = Cast<UPlayerAnimInstance>(GetMesh()->GetAnimInstance());
 	AttackComp = FindComponentByClass<UAttackComponent>();
 	TraceComp = FindComponentByClass<UTraceComponent>(); 
 	StatsComp = FindComponentByClass<UStatsComponent>();
-
-	if (PlayerAnim != nullptr)
-	{
-		/*FScriptDelegate ScriptDelegate;
-		ScriptDelegate.BindUFunction(PlayerAnim, "HandleUpdatedTarget"); */
-		LockonComp->OnUpdatedTargetDelegate.AddDynamic(
-			PlayerAnim, &UPlayerAnimInstance::HandleUpdatedTarget
-		);
-	}
 
 	if (AttackComp != nullptr)
 	{
@@ -69,6 +60,11 @@ void AMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+UPlayerAnimInstance* AMainCharacter::GetPlayerAnimInstance() const
+{
+	return Cast<UPlayerAnimInstance>(GetMesh()->GetAnimInstance());;
 }
 
 void AMainCharacter::ToggleTrace(bool bIsTracing)

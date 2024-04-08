@@ -6,8 +6,12 @@
 #include "Components/ActorComponent.h"
 #include "LockonComponent.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(
-	FOnUpdatedTargetSignature, AActor*, NewTargetActorRef
+class ULockonComponent;
+
+DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(
+	FOnUpdatedTargetSignature, 
+	ULockonComponent, OnUpdatedTargetDelegate, 
+	AActor*, NewTargetActorRef
 );
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -32,7 +36,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	double BreakDistance{ 1000.0 };
 
-	UPROPERTY()
+	UPROPERTY(BlueprintAssignable)
 	FOnUpdatedTargetSignature OnUpdatedTargetDelegate;
 
 protected:
