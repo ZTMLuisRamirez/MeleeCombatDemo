@@ -6,11 +6,12 @@
 #include "GameFramework/Character.h"
 #include "Interfaces/TargetableInterface.h"
 #include "Interfaces/Combat.h"
+#include "Interfaces/AttackTracing.h"
 #include "EnemyCharacter.generated.h"
 
 
 UCLASS()
-class MELEECOMBATDEMO_API AEnemyCharacter : public ACharacter, public ITargetableInterface, public ICombat
+class MELEECOMBATDEMO_API AEnemyCharacter : public ACharacter, public ITargetableInterface, public ICombat, public IAttackTracing
 {
 	GENERATED_BODY()
 
@@ -39,6 +40,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UAttackComponent* AttackComp;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UTraceComponent* TraceComp;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -62,4 +66,6 @@ public:
 	virtual void Attack() override;
 
 	virtual float GetAnimDuration() override;
+
+	virtual void ToggleTrace(bool bIsTracing) override;
 };

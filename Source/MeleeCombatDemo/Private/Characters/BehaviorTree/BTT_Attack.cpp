@@ -41,7 +41,9 @@ EBTNodeResult::Type UBTT_Attack::ExecuteTask(UBehaviorTreeComponent& OwnerComp, 
 			OwnerComp.GetAIOwner()->MoveTo(MoveRequest)
 		};
 
-		OwnerComp.GetAIOwner()->SetFocus(GetWorld()->GetFirstPlayerController()->GetPawn());
+		OwnerComp.GetAIOwner()->SetFocus(
+			GetWorld()->GetFirstPlayerController()->GetPawn()
+		);
 		OwnerComp.GetAIOwner()->ReceiveMoveCompleted.AddUnique(MoveDelegate);
 	}
 	else

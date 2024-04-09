@@ -12,6 +12,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Characters/EEnemyState.h"
 #include "Combat/AttackComponent.h"
+#include "Combat/TraceComponent.h"
 
 // Sets default values
 AEnemyCharacter::AEnemyCharacter()
@@ -22,6 +23,7 @@ AEnemyCharacter::AEnemyCharacter()
 	StatsComp = CreateDefaultSubobject<UStatsComponent>(TEXT("StatsComponent"));
 	PatrolComp = CreateDefaultSubobject<UPatrolComponent>(TEXT("PatrolComponent"));
 	AttackComp = CreateDefaultSubobject<UAttackComponent>(TEXT("AttackComponent"));
+	TraceComp = CreateDefaultSubobject<UTraceComponent>(TEXT("TraceComponent"));
 }
 
 // Called when the game starts or when spawned
@@ -120,4 +122,9 @@ void AEnemyCharacter::Attack()
 float AEnemyCharacter::GetAnimDuration()
 {
 	return AttackComp->AnimDuration;
+}
+
+void AEnemyCharacter::ToggleTrace(bool bIsTracing)
+{
+	TraceComp->bIsAttacking = bIsTracing;
 }
