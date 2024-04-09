@@ -11,6 +11,7 @@
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Characters/EEnemyState.h"
+#include "Combat/AttackComponent.h"
 
 // Sets default values
 AEnemyCharacter::AEnemyCharacter()
@@ -20,6 +21,7 @@ AEnemyCharacter::AEnemyCharacter()
 
 	StatsComp = CreateDefaultSubobject<UStatsComponent>(TEXT("StatsComponent"));
 	PatrolComp = CreateDefaultSubobject<UPatrolComponent>(TEXT("PatrolComponent"));
+	AttackComp = CreateDefaultSubobject<UAttackComponent>(TEXT("AttackComponent"));
 }
 
 // Called when the game starts or when spawned
@@ -108,4 +110,14 @@ void AEnemyCharacter::OnDeselect()
 bool AEnemyCharacter::IsDead()
 {
 	return bIsDead;
+}
+
+void AEnemyCharacter::Attack()
+{
+	AttackComp->RandomAttack();
+}
+
+float AEnemyCharacter::GetAnimDuration()
+{
+	return AttackComp->AnimDuration;
 }

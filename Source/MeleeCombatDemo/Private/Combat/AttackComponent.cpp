@@ -22,8 +22,7 @@ void UAttackComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
+	OwnerCharacter = Cast<ACharacter>(GetOwner());
 }
 
 
@@ -54,8 +53,6 @@ void UAttackComponent::ComboAttack()
 
 	int32 MaxCombo = AttackAnimations.Num();
 
-	ACharacter* OwnerCharacter = Cast<ACharacter>(GetOwner());
-
 	OwnerCharacter->PlayAnimMontage(AttackAnimations[ComboCounter]);
 
 	ComboCounter++;
@@ -76,4 +73,15 @@ void UAttackComponent::HandleResetAttackCombo()
 void UAttackComponent::HandleResetAttack()
 {
 	bCanAttack = true;
+}
+
+void UAttackComponent::RandomAttack()
+{
+	/*if (!CanAttack || CurrentStamina < AttackStaminaCost) { return; }
+
+	CanAttack = false;*/
+
+	int RandomIndex = FMath::RandRange(0, AttackAnimations.Num() - 1);
+
+	AnimDuration = OwnerCharacter->PlayAnimMontage(AttackAnimations[RandomIndex]);
 }

@@ -36,6 +36,8 @@ class MELEECOMBATDEMO_API UAttackComponent : public UActorComponent
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	float StaminaCost{ 15.0f };
+
+	ACharacter* OwnerCharacter;
 public:	
 	// Sets default values for this component's properties
 	UAttackComponent();
@@ -45,6 +47,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FOnAttackCompleteSignature OnAttackCompleteDelegate;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float AnimDuration;
 
 protected:
 	// Called when the game starts
@@ -62,4 +67,6 @@ public:
 
 	UFUNCTION()
 	void HandleResetAttack();
+
+	void RandomAttack();
 };

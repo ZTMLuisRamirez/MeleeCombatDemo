@@ -5,11 +5,12 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Interfaces/TargetableInterface.h"
+#include "Interfaces/Combat.h"
 #include "EnemyCharacter.generated.h"
 
 
 UCLASS()
-class MELEECOMBATDEMO_API AEnemyCharacter : public ACharacter, public ITargetableInterface
+class MELEECOMBATDEMO_API AEnemyCharacter : public ACharacter, public ITargetableInterface, public ICombat
 {
 	GENERATED_BODY()
 
@@ -35,6 +36,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TEnumAsByte<enum EEnemyState> InitialState;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UAttackComponent* AttackComp;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -54,4 +58,8 @@ public:
 	virtual void OnDeselect() override;
 
 	virtual bool IsDead() override;
+
+	virtual void Attack() override;
+
+	virtual float GetAnimDuration() override;
 };
