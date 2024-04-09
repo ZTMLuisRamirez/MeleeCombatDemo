@@ -24,4 +24,6 @@ class MELEECOMBATDEMO_API ICombat
 public:
 
 	virtual float GetDamage() { return 0.0f; }
+
+	virtual void EndLockonWithActor(AActor* ActorRef){ }
 };

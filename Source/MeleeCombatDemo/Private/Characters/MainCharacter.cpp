@@ -110,3 +110,10 @@ float AMainCharacter::GetDamage()
 {
 	return StatsComp->Stats[StatType::Strength];
 }
+
+void AMainCharacter::EndLockonWithActor(AActor* ActorRef)
+{
+	if (LockonComp->CurrentTargetActor != ActorRef) { return; }
+
+	LockonComp->EndLockon();
+}

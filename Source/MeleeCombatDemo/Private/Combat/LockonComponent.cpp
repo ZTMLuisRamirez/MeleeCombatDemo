@@ -94,11 +94,11 @@ void ULockonComponent::StartLockon(float Radius)
 
 		if (!hasLockonInterface) { continue; }
 
-		//ITargetableInterface* ITarget = Cast<ITargetableInterface>(
-		//	ActorResultRef
-		//);
-		//
-		//if (ITarget && ITarget->IsDead()) { continue; }
+		ITargetableInterface* ITargetable = Cast<ITargetableInterface>(
+			ActorResultRef
+		);
+		
+		if (ITargetable && ITargetable->IsDead()) { continue; }
 
 		// Add target to array of possible targets
 		Targets.AddUnique(ActorResultRef);
@@ -134,18 +134,20 @@ void ULockonComponent::StartLockon(float Radius)
 	MovementComp->bOrientRotationToMovement = false;
 	MovementComp->bUseControllerDesiredRotation = true;
 
-	//ILockOnTargetInterface* TargetInterface = Cast<ILockOnTargetInterface>(TargetActor);
+	ITargetableInterface* ITargetable = Cast<ITargetableInterface>(
+		CurrentTargetActor
+	);
 
-	//TargetInterface->OnSelect();
+	ITargetable->OnSelect();
 
 	OnUpdatedTargetDelegate.Broadcast(CurrentTargetActor);
 }
 
 void ULockonComponent::EndLockon()
 {
-	//ITargetableInterface* ITarget = Cast<ITargetableInterface>(ActorRef);
+	ITargetableInterface* ITarget = Cast<ITargetableInterface>(CurrentTargetActor);
 
-	/*ITarget->OnDeselect();*/
+	ITarget->OnDeselect();
 
 	Targets.Empty();
 	CurrentTargetActor = nullptr;
@@ -213,15 +215,15 @@ void ULockonComponent::SwitchTarget(ELockonDirection InputDirection)
 
 		if (TargetDistance <= ClosestSwitchTargetDistance)
 		{
-			//ILockOnTargetInterface* IOriginalTarget = Cast<ILockOnTargetInterface>(TargetActor);
-			//IOriginalTarget->OnDeselect();
+			ITargetableInterface* IOriginalTarget = Cast<ITargetableInterface>(CurrentTargetActor);
+			IOriginalTarget->OnDeselect();
 
 			ClosestSwitchTargetDistance = TargetDistance;
 			CurrentTargetActor = PotentialTarget;
 			bHasFoundNewTarget = true;
 
-			//ILockOnTargetInterface* INewTarget = Cast<ILockOnTargetInterface>(TargetActor);
-			//INewTarget->OnSelect();
+			ITargetableInterface* INewTarget = Cast<ITargetableInterface>(CurrentTargetActor);
+			INewTarget->OnSelect();
 		}
 
 		/*UE_LOG(

@@ -62,4 +62,6 @@ public:
 	void Walk();
 
 	virtual float GetDamage() override;
+
+	virtual void EndLockonWithActor(AActor* ActorRef) override;
 };

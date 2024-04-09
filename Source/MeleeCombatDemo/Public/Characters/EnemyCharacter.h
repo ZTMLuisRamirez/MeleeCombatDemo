@@ -4,13 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Interfaces/TargetableInterface.h"
 #include "EnemyCharacter.generated.h"
 
+
 UCLASS()
-class MELEECOMBATDEMO_API AEnemyCharacter : public ACharacter
+class MELEECOMBATDEMO_API AEnemyCharacter : public ACharacter, public ITargetableInterface
 {
 	GENERATED_BODY()
 
+	class UWidgetComponent* LockonWidget;
 public:
 	// Sets default values for this character's properties
 	AEnemyCharacter();
@@ -39,4 +42,10 @@ public:
 
 	UFUNCTION(BlueprintCallable, Meta = (HideSelfPin = "true"))
 	void ReceiveDamage(float Damage);
+
+	virtual void OnSelect() override;
+
+	virtual void OnDeselect() override;
+
+	virtual bool IsDead() override;
 };
