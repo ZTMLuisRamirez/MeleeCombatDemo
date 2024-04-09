@@ -17,6 +17,8 @@ class MELEECOMBATDEMO_API AEnemyCharacter : public ACharacter, public ITargetabl
 
 	class UWidgetComponent* LockonWidget;
 
+	class UEnemyAnimInstance* EnemyAnim;
+
 public:
 	// Sets default values for this character's properties
 	AEnemyCharacter();
@@ -80,4 +82,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Meta = (HideSelfPin = "true"))
 	void LoseSightOfPlayer(AActor* OtherActor);
+
+	virtual float GetDamage() override;
 };

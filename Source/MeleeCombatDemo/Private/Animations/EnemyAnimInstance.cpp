@@ -19,3 +19,8 @@ void UEnemyAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSeconds)
 	FVector Velocity = ActorRef->GetVelocity();
 	VerticalSpeed = static_cast<float>(Velocity.Length());
 }
+
+void UEnemyAnimInstance::RaiseResetAttack()
+{
+	OnResetAttackDelegate.Broadcast();
+}

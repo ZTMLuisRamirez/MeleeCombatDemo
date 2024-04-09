@@ -14,6 +14,7 @@
 #include "Combat/AttackComponent.h"
 #include "Combat/TraceComponent.h"
 #include "BrainComponent.h"
+#include "Animations/EnemyAnimInstance.h"
 
 // Sets default values
 AEnemyCharacter::AEnemyCharacter()
@@ -38,6 +39,15 @@ void AEnemyCharacter::BeginPlay()
 		TEXT("CurrentState"),
 		InitialState
 	);
+
+	EnemyAnim = Cast<UEnemyAnimInstance>(GetMesh()->GetAnimInstance());
+
+	if (EnemyAnim != nullptr)
+	{
+		EnemyAnim->OnResetAttackDelegate.AddDynamic(
+			TraceComp, &UTraceComponent::HandleResetAttack
+		);
+	}
 }
 
 // Called every frame
@@ -175,4 +185,9 @@ void AEnemyCharacter::LoseSightOfPlayer(AActor* OtherActor)
 		TEXT("CurrentState"),
 		EEnemyState::Idle
 	);
+}
+
+float AEnemyCharacter::GetDamage() 
+{
+	return StatsComp->Stats[StatType::Strength]; 
 }

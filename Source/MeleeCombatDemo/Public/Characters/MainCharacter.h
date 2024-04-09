@@ -34,6 +34,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UStatsComponent* StatsComp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UAnimMontage* HitAnimation;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -64,4 +67,7 @@ public:
 	virtual float GetDamage() override;
 
 	virtual void EndLockonWithActor(AActor* ActorRef) override;
+
+	UFUNCTION(BlueprintCallable, Meta = (HideSelfPin = "true"))
+	void ReceiveDamage(float Damage);
 };

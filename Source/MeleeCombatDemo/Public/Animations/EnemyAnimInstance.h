@@ -6,6 +6,8 @@
 #include "Animation/AnimInstance.h"
 #include "EnemyAnimInstance.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnResetEnemyAttackSignature);
+
 /**
  * 
  */
@@ -23,4 +25,11 @@ protected:
 	virtual void NativeInitializeAnimation() override;
 
 	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds) override;
+
+public:
+	UPROPERTY()
+	FOnResetEnemyAttackSignature OnResetAttackDelegate;
+
+	UFUNCTION(BlueprintCallable, Meta = (HideSelfPin = "true"))
+	void RaiseResetAttack();
 };

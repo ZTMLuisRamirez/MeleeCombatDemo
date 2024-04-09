@@ -117,3 +117,31 @@ void AMainCharacter::EndLockonWithActor(AActor* ActorRef)
 
 	LockonComp->EndLockon();
 }
+
+void AMainCharacter::ReceiveDamage(float Damage)
+{
+	//if (bIsDead) { return; }
+
+
+	StatsComp->Stats[StatType::Health] -= Damage;
+	UE_LOG(LogClass, Warning, TEXT("Damaged"));
+	//if (StatsComp->Stats[StatType::Health] > 0)
+	//{
+		float Duration = PlayAnimMontage(HitAnimation);
+
+	//	GetWorldTimerManager().SetTimer(
+	//		AttackTimerHandle,
+	//		this,
+	//		&AEnemyCharacter::FinishHitAnim,
+	//		Duration,
+	//		false
+	//	);
+
+	//	return;
+	//}
+
+
+	//bIsDead = true;
+
+	//PlayAnimMontage(DeathAnimation);
+}

@@ -101,7 +101,7 @@ void UTraceComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 		AActor* TargetActor = Hit.GetActor();
 		
 		if (IgnoreTargets.Contains(TargetActor)) { continue; }
-		
+		UE_LOG(LogClass, Warning, TEXT("%f"), CharacterDamage);
 		TargetActor->TakeDamage(
 			CharacterDamage,
 			TargetAttackedEvent,
@@ -111,6 +111,7 @@ void UTraceComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 
 		IgnoreTargets.AddUnique(TargetActor);
 	}
+	
 }
 
 void UTraceComponent::HandleResetAttack()
