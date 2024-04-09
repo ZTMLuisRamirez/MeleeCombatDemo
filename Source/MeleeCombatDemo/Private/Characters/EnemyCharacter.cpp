@@ -13,6 +13,7 @@
 #include "Characters/EEnemyState.h"
 #include "Combat/AttackComponent.h"
 #include "Combat/TraceComponent.h"
+#include "BrainComponent.h"
 
 // Sets default values
 AEnemyCharacter::AEnemyCharacter()
@@ -55,12 +56,12 @@ void AEnemyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 
 void AEnemyCharacter::ReceiveDamage(float Damage)
 {
-	//if (bIsDead) { return; }
+	if (bIsDead) { return; }
 
-	//GetController<AAIController>()->GetBlackboardComponent()->SetValueAsEnum(
-	//	TEXT("CurrentState"),
-	//	EEnemyCurrentState::Hit
-	//);
+	GetController<AAIController>()->GetBlackboardComponent()->SetValueAsEnum(
+		TEXT("CurrentState"),
+		EEnemyState::Hit
+	);
 
 	StatsComp->Stats[StatType::Health] -= Damage;
 
@@ -68,20 +69,22 @@ void AEnemyCharacter::ReceiveDamage(float Damage)
 	{
 		float Duration = PlayAnimMontage(HitAnimation);
 
-		//GetWorldTimerManager().SetTimer(
-		//	AttackTimerHandle,
-		//	this,
-		//	&AMinionCharacter::FinishHitAnim,
-		//	Duration,
-		//	false
-		//);
+		GetWorldTimerManager().SetTimer(
+			AttackTimerHandle,
+			this,
+			&AEnemyCharacter::FinishHitAnim,
+			Duration,
+			false
+		);
 
 		return;
 	}
 
-	//GetController<AAIController>()->GetBrainComponent()->StopLogic("die");
-	//GetController<AAIController>()->ClearFocus(EAIFocusPriority::Gameplay);
+	GetController<AAIController>()->GetBrainComponent()->StopLogic("die"); 
+	GetController<AAIController>()->ClearFocus(EAIFocusPriority::Gameplay); 
+
 	bIsDead = true;
+
 	PlayAnimMontage(DeathAnimation);
 
 	ACharacter* CharacterRef{
@@ -127,4 +130,49 @@ float AEnemyCharacter::GetAnimDuration()
 void AEnemyCharacter::ToggleTrace(bool bIsTracing)
 {
 	TraceComp->bIsAttacking = bIsTracing;
+}
+
+void AEnemyCharacter::DetectPawn(APawn* DetectedPawn, APawn* PawnToDetect)
+{
+	
+	UBlackboardComponent* BlackboardComp{
+		GetController<AAIController>()->GetBlackboardComponent()
+	};
+
+	EEnemyState CurrentState{ static_cast<EEnemyState>(
+		BlackboardComp->GetValueAsEnum(TEXT("CurrentState"))
+	) };
+
+	if (
+		DetectedPawn != PawnToDetect || CurrentState == EEnemyState::Hit
+	) {
+		return;
+	}
+
+	BlackboardComp->SetValueAsEnum(
+		TEXT("CurrentState"),
+		EEnemyState::Combat
+	);
+}
+
+void AEnemyCharacter::FinishHitAnim()
+{
+	GetController<AAIController>()->GetBlackboardComponent()->SetValueAsEnum(
+		TEXT("CurrentState"),
+		EEnemyState::Combat
+	);
+}
+
+void AEnemyCharacter::LoseSightOfPlayer(AActor* OtherActor)
+{
+	ACharacter* CharacterRef = Cast<ACharacter>(OtherActor);
+
+	if (!CharacterRef) { return; }
+
+	if (!CharacterRef->IsPlayerControlled()) { return; }
+	
+	GetController<AAIController>()->GetBlackboardComponent()->SetValueAsEnum(
+		TEXT("CurrentState"),
+		EEnemyState::Idle
+	);
 }

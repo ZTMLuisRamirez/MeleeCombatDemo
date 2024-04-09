@@ -16,6 +16,7 @@ class MELEECOMBATDEMO_API AEnemyCharacter : public ACharacter, public ITargetabl
 	GENERATED_BODY()
 
 	class UWidgetComponent* LockonWidget;
+
 public:
 	// Sets default values for this character's properties
 	AEnemyCharacter();
@@ -43,6 +44,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UTraceComponent* TraceComp;
 
+	FTimerHandle AttackTimerHandle;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -68,4 +71,13 @@ public:
 	virtual float GetAnimDuration() override;
 
 	virtual void ToggleTrace(bool bIsTracing) override;
+
+	UFUNCTION(BlueprintCallable, Meta = (HideSelfPin = "true"))
+	void DetectPawn(APawn* DetectedPawn, APawn* PawnToDetect);
+
+	UFUNCTION()
+	void FinishHitAnim();
+
+	UFUNCTION(BlueprintCallable, Meta = (HideSelfPin = "true"))
+	void LoseSightOfPlayer(AActor* OtherActor);
 };
