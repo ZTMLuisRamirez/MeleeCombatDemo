@@ -29,6 +29,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UAnimMontage* DeathAnimation;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UPatrolComponent* PatrolComp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TEnumAsByte<enum EEnemyState> InitialState;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

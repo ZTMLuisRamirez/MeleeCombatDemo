@@ -7,6 +7,10 @@
 #include "Components/WidgetComponent.h"
 #include "Characters/MainCharacter.h"
 #include "Interfaces/Combat.h"
+#include "Characters/PatrolComponent.h"
+#include "AIController.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "Characters/EEnemyState.h"
 
 // Sets default values
 AEnemyCharacter::AEnemyCharacter()
@@ -15,6 +19,7 @@ AEnemyCharacter::AEnemyCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	StatsComp = CreateDefaultSubobject<UStatsComponent>(TEXT("StatsComponent"));
+	PatrolComp = CreateDefaultSubobject<UPatrolComponent>(TEXT("PatrolComponent"));
 }
 
 // Called when the game starts or when spawned
@@ -23,6 +28,11 @@ void AEnemyCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	LockonWidget = FindComponentByClass<UWidgetComponent>();
+
+	GetController<AAIController>()->GetBlackboardComponent()->SetValueAsEnum(
+		TEXT("CurrentState"),
+		InitialState
+	);
 }
 
 // Called every frame
