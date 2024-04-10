@@ -79,7 +79,7 @@ public:
 	virtual void EndLockonWithActor(AActor* ActorRef) override;
 
 	UFUNCTION(BlueprintCallable, Meta = (HideSelfPin = "true"))
-	void ReceiveDamage(float Damage);
+	void ReceiveDamage(float Damage, AActor* DamageCauser);
 
 	UFUNCTION()
 	void LoadWidget();

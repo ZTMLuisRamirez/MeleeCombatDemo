@@ -123,9 +123,37 @@ void AMainCharacter::EndLockonWithActor(AActor* ActorRef)
 	LockonComp->EndLockon();
 }
 
-void AMainCharacter::ReceiveDamage(float Damage)
+void AMainCharacter::ReceiveDamage(float Damage, AActor* DamageCauser)
 {
 	if (bIsDead) { return; }
+
+	FVector DamageCauserLocation{ DamageCauser->GetActorForwardVector()};
+
+	double result{
+		FVector::DotProduct(DamageCauserLocation, GetActorForwardVector())
+	};
+
+	// Block attack if player is blocking
+	if (result <= 0 && PlayerAnim->bIsBlocking)
+	{
+		UE_LOG(LogClass, Warning, TEXT("Blocking"));
+		return;
+		/*if (HasEnoughStamina(10.0f))
+		{*/
+			//AttackComp->OnBlockDelegate.Broadcast(
+			//	AttackComp->BlockStaminaCost
+			//);
+
+			//PlayAnimMontage(BlockAnimation);
+
+			//StatsComp->DelayStaminaRegen();
+
+			//PlayerWidget->UpdateStaminaProgressBar(StatType::Stamina, 10.0f);
+
+			//return;
+		//}
+	}
+
 
 	StatsComp->Stats[StatType::Health] -= Damage;
 
