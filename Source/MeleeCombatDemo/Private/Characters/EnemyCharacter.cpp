@@ -15,6 +15,7 @@
 #include "Combat/TraceComponent.h"
 #include "BrainComponent.h"
 #include "Animations/EnemyAnimInstance.h"
+#include "Components/CapsuleComponent.h" 
 
 // Sets default values
 AEnemyCharacter::AEnemyCharacter()
@@ -92,6 +93,9 @@ void AEnemyCharacter::ReceiveDamage(float Damage)
 
 	GetController<AAIController>()->GetBrainComponent()->StopLogic("die"); 
 	GetController<AAIController>()->ClearFocus(EAIFocusPriority::Gameplay); 
+	FindComponentByClass<UCapsuleComponent>()->SetCollisionEnabled(
+		ECollisionEnabled::NoCollision
+	);
 
 	bIsDead = true;
 
