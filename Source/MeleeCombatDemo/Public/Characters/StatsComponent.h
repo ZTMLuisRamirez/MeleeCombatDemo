@@ -69,4 +69,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void HandleBlock(float Amount);
+
+	UFUNCTION(BlueprintCallable)
+	void HandleRoll(float Amount);
 };

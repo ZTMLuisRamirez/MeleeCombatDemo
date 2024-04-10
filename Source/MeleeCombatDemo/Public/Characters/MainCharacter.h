@@ -50,6 +50,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UAnimMontage* BlockAnimation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UAnimMontage* RollAnimation;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -89,4 +92,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void ToggleBlock(bool bBlockFlag);
+
+	UFUNCTION(BlueprintCallable)
+	void Roll();
 };

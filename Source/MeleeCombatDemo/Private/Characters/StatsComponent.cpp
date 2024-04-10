@@ -105,3 +105,15 @@ void UStatsComponent::HandleBlock(float Amount)
 		Stats[StatType::MaxStamina]
 	);
 }
+
+void UStatsComponent::HandleRoll(float Amount)
+{
+	bCanRegen = false;
+
+	Stats[StatType::Stamina] -= Amount;
+	Stats[StatType::Stamina] = UKismetMathLibrary::Clamp(
+		Stats[StatType::Stamina],
+		0,
+		Stats[StatType::MaxStamina]
+	);
+}
