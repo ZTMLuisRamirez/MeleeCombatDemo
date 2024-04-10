@@ -47,6 +47,9 @@ public:
 	UAnimMontage* DeathAnimation;
 
 	bool bIsDead{ false };
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UAnimMontage* BlockAnimation;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

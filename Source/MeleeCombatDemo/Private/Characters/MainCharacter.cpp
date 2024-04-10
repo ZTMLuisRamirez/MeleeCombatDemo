@@ -136,21 +136,20 @@ void AMainCharacter::ReceiveDamage(float Damage, AActor* DamageCauser)
 	// Block attack if player is blocking
 	if (result <= 0 && PlayerAnim->bIsBlocking)
 	{
-		UE_LOG(LogClass, Warning, TEXT("Blocking"));
-		return;
+
 		/*if (HasEnoughStamina(10.0f))
 		{*/
 			//AttackComp->OnBlockDelegate.Broadcast(
 			//	AttackComp->BlockStaminaCost
 			//);
 
-			//PlayAnimMontage(BlockAnimation);
+			PlayAnimMontage(BlockAnimation);
 
 			//StatsComp->DelayStaminaRegen();
 
 			//PlayerWidget->UpdateStaminaProgressBar(StatType::Stamina, 10.0f);
 
-			//return;
+			return;
 		//}
 	}
 
