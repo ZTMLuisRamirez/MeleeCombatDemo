@@ -3,6 +3,7 @@
 
 #include "UI/PlayerUserWidget.h"
 #include "Characters/StatsComponent.h"
+#include "Components/ProgressBar.h"
 
 void UPlayerUserWidget::NativeConstruct()
 {
@@ -33,3 +34,13 @@ void UPlayerUserWidget::UpdateStaminaProgressBar(StatType TargetStat, float NewV
 	StaminaProgressBar->SetPercent(Percentage);
 }
 
+void UPlayerUserWidget::AdjustHealth(float CurrentVal, float MaxVal)
+{
+	UProgressBar* HealthProgressBar = Cast<UProgressBar>(
+		GetWidgetFromName("HealthProgressBar")
+	);
+
+	float Percentage{ CurrentVal / MaxVal };
+
+	HealthProgressBar->SetPercent(Percentage);
+}

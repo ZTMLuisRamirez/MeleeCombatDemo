@@ -22,6 +22,8 @@ class MELEECOMBATDEMO_API AMainCharacter : public ACharacter, public IAttackTrac
 	UPROPERTY(EditAnywhere, meta = (MetaClass = "UserWidget"))
 	TSubclassOf<UUserWidget> DeathWidgetTemplate;
 
+	class UPlayerUserWidget* PlayerWidget;
+
 public:
 	// Sets default values for this character's properties
 	AMainCharacter();

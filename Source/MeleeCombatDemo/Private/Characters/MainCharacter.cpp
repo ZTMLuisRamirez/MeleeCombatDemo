@@ -9,6 +9,7 @@
 #include "Characters/StatsComponent.h"
 #include "Blueprint/UserWidget.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "UI/PlayerUserWidget.h"
 
 // Sets default values
 AMainCharacter::AMainCharacter()
@@ -75,8 +76,12 @@ void AMainCharacter::LoadPlayerHUD()
 		*GetWorld(), PlayerWidgetTemplate, "Player HUD"
 	);
 	WidgetInstance->AddToViewport(10);
-	//UUserWidget* NewWidget = CreateWidget(GetWorld(), DeathWidget);
-	//NewWidget->AddToViewport(9999); // Z-order, this just makes it render on the very top./
+
+	PlayerWidget = Cast<UPlayerUserWidget>(WidgetInstance);
+
+	PlayerWidget->AdjustHealth( 
+		StatsComp->Stats[StatType::Health], StatsComp->Stats[StatType::MaxHealth]
+	);
 }
 
 bool AMainCharacter::HasEnoughStamina(float RequiredCost)
@@ -123,6 +128,10 @@ void AMainCharacter::ReceiveDamage(float Damage)
 	if (bIsDead) { return; }
 
 	StatsComp->Stats[StatType::Health] -= Damage;
+
+	PlayerWidget->AdjustHealth(
+		StatsComp->Stats[StatType::Health], StatsComp->Stats[StatType::MaxHealth]
+	);
 
 	if (StatsComp->Stats[StatType::Health] > 0)
 	{

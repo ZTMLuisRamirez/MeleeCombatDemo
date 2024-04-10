@@ -24,4 +24,6 @@ protected:
 public:
 	UFUNCTION()
 	void UpdateStaminaProgressBar(enum StatType TargetStat, float NewVal);
+
+	void AdjustHealth(float CurrentVal, float MaxVal);
 };
