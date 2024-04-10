@@ -66,4 +66,7 @@ public:
 
 	UFUNCTION()
 	void EnableRegen();
+
+	UFUNCTION(BlueprintCallable)
+	void HandleBlock(float Amount);
 };

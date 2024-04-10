@@ -139,13 +139,11 @@ void AMainCharacter::ReceiveDamage(float Damage, AActor* DamageCauser)
 
 		/*if (HasEnoughStamina(10.0f))
 		{*/
-			//AttackComp->OnBlockDelegate.Broadcast(
-			//	AttackComp->BlockStaminaCost
-			//);
+			AttackComp->BroadcastBlockDelegate();
 
 			PlayAnimMontage(BlockAnimation);
 
-			//StatsComp->DelayStaminaRegen();
+			StatsComp->DelayStaminaRegen();
 
 			//PlayerWidget->UpdateStaminaProgressBar(StatType::Stamina, 10.0f);
 

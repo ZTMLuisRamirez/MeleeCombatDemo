@@ -85,3 +85,8 @@ void UAttackComponent::RandomAttack()
 
 	AnimDuration = OwnerCharacter->PlayAnimMontage(AttackAnimations[RandomIndex]);
 }
+
+void UAttackComponent::BroadcastBlockDelegate()
+{
+	OnBlockDelegate.Broadcast(BlockStaminaCost);
+}

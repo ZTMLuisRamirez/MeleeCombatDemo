@@ -19,6 +19,12 @@ DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE(
 	UAttackComponent, OnAttackCompleteDelegate
 );
 
+DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(
+	FOnBlockSignature,
+	UAttackComponent, OnBlockDelegate,
+	float, Cost
+);
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MELEECOMBATDEMO_API UAttackComponent : public UActorComponent
@@ -51,6 +57,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float AnimDuration;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	float BlockStaminaCost{ 10.0f };
+
+	UPROPERTY(BlueprintAssignable)
+	FOnBlockSignature OnBlockDelegate;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -69,4 +81,6 @@ public:
 	void HandleResetAttack();
 
 	void RandomAttack();
+
+	void BroadcastBlockDelegate();
 };
