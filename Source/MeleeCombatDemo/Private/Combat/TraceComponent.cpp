@@ -100,8 +100,8 @@ void UTraceComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 	{
 		AActor* TargetActor = Hit.GetActor();
 		
-		if (IgnoreTargets.Contains(TargetActor)) { continue; }
-		UE_LOG(LogClass, Warning, TEXT("%f"), CharacterDamage);
+		if (IgnoreTargets.Contains(TargetActor) || TargetActor->ActorHasTag(IgnoreActorTag)) { continue; }
+		
 		TargetActor->TakeDamage(
 			CharacterDamage,
 			TargetAttackedEvent,
