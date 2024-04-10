@@ -174,3 +174,8 @@ void AMainCharacter::LoadWidget()
 	);
 	NewWidget->AddToViewport(20);
 }
+
+void AMainCharacter::ToggleBlock(bool bBlockFlag)
+{
+	PlayerAnim->bIsBlocking = bBlockFlag;
+}

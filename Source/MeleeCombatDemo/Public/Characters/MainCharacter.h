@@ -83,4 +83,7 @@ public:
 
 	UFUNCTION()
 	void LoadWidget();
+
+	UFUNCTION(BlueprintCallable)
+	void ToggleBlock(bool bBlockFlag);
 };

@@ -35,6 +35,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bIsInCombat{ false };
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bIsBlocking{ false };
+
 	UPROPERTY(BlueprintAssignable)
 	FOnResetAttackComboSignature OnResetAttackComboDelegate;
 
