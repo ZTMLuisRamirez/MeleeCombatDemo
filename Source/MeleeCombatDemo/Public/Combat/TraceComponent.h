@@ -31,6 +31,9 @@ class MELEECOMBATDEMO_API UTraceComponent : public UActorComponent
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	bool bDebugMode{ false };
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	FName TagToIgnore;
+
 public:	
 	// Sets default values for this component's properties
 	UTraceComponent();

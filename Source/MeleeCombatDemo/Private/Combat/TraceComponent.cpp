@@ -34,7 +34,7 @@ void UTraceComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	if (!bIsAttacking) { return; }
-
+	//UE_LOG(LogClass, Warning, TEXT("tracing"));
 	TArray<FHitResult> OutResults;
 	FVector StartSocketLocation{ SkeletalComp->GetSocketLocation(StartSocket) };
 	FVector EndSocketLocation{ SkeletalComp->GetSocketLocation(EndSocket) };
@@ -52,6 +52,7 @@ void UTraceComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 	FCollisionQueryParams TraceParams{ 
 		FName(TEXT("CollisionParams")), false, PawnRef
 	};
+
 	bool hasFoundTargets{ GetWorld()->SweepMultiByObjectType(
 		OutResults,
 		StartSocketLocation,
@@ -101,7 +102,7 @@ void UTraceComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 		AActor* TargetActor = Hit.GetActor();
 		
 		if (IgnoreTargets.Contains(TargetActor)) { continue; }
-		UE_LOG(LogClass, Warning, TEXT("%f"), CharacterDamage);
+
 		TargetActor->TakeDamage(
 			CharacterDamage,
 			TargetAttackedEvent,
