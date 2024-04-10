@@ -120,13 +120,12 @@ void AMainCharacter::EndLockonWithActor(AActor* ActorRef)
 
 void AMainCharacter::ReceiveDamage(float Damage)
 {
-	//if (bIsDead) { return; }
-
+	if (bIsDead) { return; }
 
 	StatsComp->Stats[StatType::Health] -= Damage;
-	UE_LOG(LogClass, Warning, TEXT("Damaged"));
-	//if (StatsComp->Stats[StatType::Health] > 0)
-	//{
+
+	if (StatsComp->Stats[StatType::Health] > 0)
+	{
 		float Duration = PlayAnimMontage(HitAnimation);
 
 	//	GetWorldTimerManager().SetTimer(
@@ -137,11 +136,29 @@ void AMainCharacter::ReceiveDamage(float Damage)
 	//		false
 	//	);
 
-	//	return;
-	//}
+		return;
+	}
 
+	bIsDead = true;
 
-	//bIsDead = true;
+	float Duration = PlayAnimMontage(DeathAnimation);
 
-	//PlayAnimMontage(DeathAnimation);
+	DisableInput(GetController<APlayerController>());
+
+	FTimerHandle DeathTimerHandler;
+	GetWorldTimerManager().SetTimer(
+		DeathTimerHandler,
+		this,
+		&AMainCharacter::LoadWidget,
+		Duration,
+		false
+	);
+}
+
+void AMainCharacter::LoadWidget()
+{
+	UUserWidget* NewWidget = UUserWidget::CreateWidgetInstance(
+		*GetWorld(), DeathWidgetTemplate, "Death Widget"
+	);
+	NewWidget->AddToViewport(20);
 }

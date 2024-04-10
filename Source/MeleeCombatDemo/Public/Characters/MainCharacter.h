@@ -19,6 +19,9 @@ class MELEECOMBATDEMO_API AMainCharacter : public ACharacter, public IAttackTrac
 	UPROPERTY(EditAnywhere, meta = (MetaClass = "UserWidget"))
 	TSubclassOf<UUserWidget> PlayerWidgetTemplate;
 
+	UPROPERTY(EditAnywhere, meta = (MetaClass = "UserWidget"))
+	TSubclassOf<UUserWidget> DeathWidgetTemplate;
+
 public:
 	// Sets default values for this character's properties
 	AMainCharacter();
@@ -37,6 +40,11 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UAnimMontage* HitAnimation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UAnimMontage* DeathAnimation;
+
+	bool bIsDead{ false };
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -70,4 +78,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Meta = (HideSelfPin = "true"))
 	void ReceiveDamage(float Damage);
+
+	UFUNCTION()
+	void LoadWidget();
 };
