@@ -135,6 +135,8 @@ void AMainCharacter::ReceiveDamage(float Damage)
 
 	if (StatsComp->Stats[StatType::Health] > 0)
 	{
+		AttackComp->HandleResetAttack();
+
 		float Duration = PlayAnimMontage(HitAnimation);
 
 	//	GetWorldTimerManager().SetTimer(
