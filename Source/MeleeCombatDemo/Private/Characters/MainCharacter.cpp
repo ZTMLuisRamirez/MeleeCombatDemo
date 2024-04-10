@@ -19,7 +19,7 @@ AMainCharacter::AMainCharacter()
 	
 	LockonComp = CreateDefaultSubobject<ULockonComponent>(TEXT("LockonComponent"));
 	AttackComp = CreateDefaultSubobject<UAttackComponent>(TEXT("AttackComponent"));
-	TraceComp = CreateDefaultSubobject<UTraceComponent>(TEXT("TraceComponent")); 
+	TraceComp = CreateDefaultSubobject<UTraceComponent>(TEXT("TraceComponent"));
 	StatsComp = CreateDefaultSubobject<UStatsComponent>(TEXT("StatsComponent"));
 }
 
@@ -135,8 +135,6 @@ void AMainCharacter::ReceiveDamage(float Damage)
 
 	if (StatsComp->Stats[StatType::Health] > 0)
 	{
-		//AttackComp->HandleResetAttack();
-
 		float Duration = PlayAnimMontage(HitAnimation);
 
 	//	GetWorldTimerManager().SetTimer(
