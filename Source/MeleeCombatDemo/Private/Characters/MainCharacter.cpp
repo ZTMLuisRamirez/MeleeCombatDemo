@@ -136,9 +136,8 @@ void AMainCharacter::ReceiveDamage(float Damage, AActor* DamageCauser)
 	// Block attack if player is blocking
 	if (result <= 0 && PlayerAnim->bIsBlocking)
 	{
-
-		/*if (HasEnoughStamina(10.0f))
-		{*/
+		if (HasEnoughStamina(AttackComp->BlockStaminaCost))
+		{
 			AttackComp->BroadcastBlockDelegate();
 
 			PlayAnimMontage(BlockAnimation);
@@ -148,7 +147,7 @@ void AMainCharacter::ReceiveDamage(float Damage, AActor* DamageCauser)
 			//PlayerWidget->UpdateStaminaProgressBar(StatType::Stamina, 10.0f);
 
 			return;
-		//}
+		}
 	}
 
 

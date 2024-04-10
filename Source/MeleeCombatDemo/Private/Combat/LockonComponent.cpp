@@ -138,7 +138,7 @@ void ULockonComponent::StartLockon(float Radius)
 		CurrentTargetActor
 	);
 
-	ITargetable->OnSelect();
+	if (ITargetable) { ITargetable->OnSelect(); }
 
 	OnUpdatedTargetDelegate.Broadcast(CurrentTargetActor);
 }
@@ -216,14 +216,16 @@ void ULockonComponent::SwitchTarget(ELockonDirection InputDirection)
 		if (TargetDistance <= ClosestSwitchTargetDistance)
 		{
 			ITargetableInterface* IOriginalTarget = Cast<ITargetableInterface>(CurrentTargetActor);
-			IOriginalTarget->OnDeselect();
-
+			
+			if (IOriginalTarget) { IOriginalTarget->OnDeselect(); }
+		
 			ClosestSwitchTargetDistance = TargetDistance;
 			CurrentTargetActor = PotentialTarget;
 			bHasFoundNewTarget = true;
 
 			ITargetableInterface* INewTarget = Cast<ITargetableInterface>(CurrentTargetActor);
-			INewTarget->OnSelect();
+			
+			if (INewTarget) { INewTarget->OnSelect(); }
 		}
 
 		/*UE_LOG(
