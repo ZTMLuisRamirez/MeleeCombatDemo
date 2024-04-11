@@ -2,6 +2,8 @@
 
 
 #include "Characters/BossCharacter.h"
+#include "AIController.h"
+#include "BehaviorTree/BlackboardComponent.h"
 
 // Sets default values
 ABossCharacter::ABossCharacter()
@@ -16,6 +18,10 @@ void ABossCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	GetController<AAIController>()->GetBlackboardComponent()->SetValueAsEnum(
+		TEXT("CurrentState"),
+		InitialState
+	);
 }
 
 // Called every frame
