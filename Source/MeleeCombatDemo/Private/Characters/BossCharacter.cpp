@@ -9,6 +9,8 @@
 #include "Combat/AttackComponent.h"
 #include "Characters/StatsComponent.h"
 #include "Characters/RotationComponent.h"
+#include "BrainComponent.h"
+#include "Components/CapsuleComponent.h"
 
 // Sets default values
 ABossCharacter::ABossCharacter()
@@ -61,4 +63,36 @@ float ABossCharacter::GetAnimDuration()
 float ABossCharacter::GetDamage()
 {
 	return StatsComp->Stats[StatType::Strength];
+}
+
+void ABossCharacter::ReceiveDamage(float Damage)
+{
+	if (StatsComp->Stats[StatType::Health] <= 0) { return; }
+
+	StatsComp->Stats[StatType::Health] -= Damage;
+
+	if (StatsComp->Stats[StatType::Health] > 0) { return; }
+
+	GetController<AAIController>()->GetBrainComponent()->StopLogic("defeated");
+	GetController<AAIController>()->ClearFocus(EAIFocusPriority::Gameplay);
+
+	FindComponentByClass<UCapsuleComponent>()->SetCollisionEnabled(
+		ECollisionEnabled::NoCollision
+	); 
+
+	PlayAnimMontage(DeathAnimation);
+
+	ACharacter* CharacterRef{
+		GetWorld()->GetFirstPlayerController()->GetCharacter()
+	};
+
+	if (!CharacterRef) { return; }
+
+	if (!CharacterRef->Implements<UCombat>()) { return; }
+
+	ICombat* CombatRef{ Cast<ICombat>(CharacterRef) };
+
+	if (!CombatRef) { return; }
+
+	CombatRef->EndLockonWithActor(this);
 }

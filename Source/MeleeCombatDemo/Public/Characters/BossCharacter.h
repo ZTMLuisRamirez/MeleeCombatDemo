@@ -39,6 +39,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TEnumAsByte<EEnemyState> InitialState;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UAnimMontage* DeathAnimation;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -52,5 +55,6 @@ public:
 
 	virtual float GetDamage() override;
 
-	/*virtual class AEnemyProjectile* GetProjectileComponent() override;*/
+	UFUNCTION(BlueprintCallable, Meta = (HideSelfPin = "true"))
+	void ReceiveDamage(float Damage); 
 };
