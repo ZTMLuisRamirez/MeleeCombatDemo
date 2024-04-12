@@ -17,13 +17,15 @@ class MELEECOMBATDEMO_API UAttackTraceAnimNotifyState : public UAnimNotifyState
 	virtual void NotifyBegin(
 		USkeletalMeshComponent* MeshComp, 
 		UAnimSequenceBase* Animation, 
-		float TotalDuration
+		float TotalDuration,
+		const FAnimNotifyEventReference &EventReference
 	) override;
 
 	virtual void NotifyEnd(
 		USkeletalMeshComponent* MeshComp,
-		UAnimSequenceBase* Animation
+		UAnimSequenceBase* Animation,
+		const FAnimNotifyEventReference& EventReference
 	) override;
 
-	class IAttackTracing* CheckTraceComponent(USkeletalMeshComponent* MeshComp);
+	void ToggleAttack(USkeletalMeshComponent* MeshComp, bool NewVal);
 };

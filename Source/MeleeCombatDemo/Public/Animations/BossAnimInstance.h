@@ -23,6 +23,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UEnemyProjectileComponent* ProjectileComp;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UTraceComponent* TraceComp;
+
 	virtual void NativeInitializeAnimation() override;
 
 	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds) override;

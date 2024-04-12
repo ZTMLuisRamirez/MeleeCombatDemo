@@ -13,6 +13,24 @@ UCLASS()
 class MELEECOMBATDEMO_API UBTT_MeleeAttack : public UBTTaskNode
 {
 	GENERATED_BODY()
+
+	FTimerHandle AttackTimerHandle;
+
+	UFUNCTION()
+	void FinishAttackTask();
+
+	bool bIsFinished{ false };
+
+	FScriptDelegate MoveDelegate;
+
+	UPROPERTY(EditAnywhere)
+	double AttackRadius{ 300.0f };
+
+	UPROPERTY(EditAnywhere)
+	float AcceptableRadius{ 100.0f };
+
+public:
+	UBTT_MeleeAttack();
 	
 protected:
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;

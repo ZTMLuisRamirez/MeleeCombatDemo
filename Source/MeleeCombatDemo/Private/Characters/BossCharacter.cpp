@@ -5,6 +5,9 @@
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Combat/EnemyProjectileComponent.h"
+#include "Combat/TraceComponent.h"
+#include "Combat/AttackComponent.h"
+#include "Characters/StatsComponent.h"
 
 // Sets default values
 ABossCharacter::ABossCharacter()
@@ -12,6 +15,10 @@ ABossCharacter::ABossCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	TraceComp = CreateDefaultSubobject<UTraceComponent>(TEXT("TraceComponent"));
+	EnemyProjectileComp = CreateDefaultSubobject<UEnemyProjectileComponent>(TEXT("EnemyProjectileComponent"));
+	AttackComp = CreateDefaultSubobject<UAttackComponent>(TEXT("AttackComponent"));
+	StatsComp = CreateDefaultSubobject<UStatsComponent>(TEXT("StatsComponent"));
 }
 
 // Called when the game starts or when spawned
@@ -39,8 +46,17 @@ void ABossCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 }
 
-AEnemyProjectile* ABossCharacter::GetProjectileComponent()
+void ABossCharacter::Attack()
 {
-	return EnemyProjectileComp;
+	AttackComp->RandomAttack();
 }
 
+float ABossCharacter::GetAnimDuration()
+{
+	return AttackComp->AnimDuration;
+}
+
+float ABossCharacter::GetDamage()
+{
+	return StatsComp->Stats[StatType::Strength];
+}

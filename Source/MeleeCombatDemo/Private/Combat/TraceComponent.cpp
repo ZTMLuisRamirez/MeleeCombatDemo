@@ -35,54 +35,64 @@ void UTraceComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 
 	if (!bIsAttacking) { return; }
 
-	TArray<FHitResult> OutResults;
-	FVector StartSocketLocation{ SkeletalComp->GetSocketLocation(StartSocket) };
-	FVector EndSocketLocation{ SkeletalComp->GetSocketLocation(EndSocket) };
-	FQuat ShapeRotation{ SkeletalComp->GetSocketQuaternion(RotationSocket) };
-	// list of actors to search for!
-	FCollisionObjectQueryParams CollisionObjectParams{ ECC_Pawn };
+	TArray<FHitResult> AllResults{ };
+	bool hasFoundTargets = false;
 
-	FVector SwordDistance{ StartSocketLocation - EndSocketLocation }; 
-	float CapsuleHalfSize{ static_cast<float>(SwordDistance.Size() / 2) };
-	FCollisionShape CollisionCapsule{ FCollisionShape::MakeCapsule( 
-		Radius, CapsuleHalfSize
-	) };
-
-	// list of actors to ignore
-	FCollisionQueryParams TraceParams{ 
-		FName(TEXT("CollisionParams")), false, PawnRef
-	};
-	bool hasFoundTargets{ GetWorld()->SweepMultiByObjectType(
-		OutResults,
-		StartSocketLocation,
-		EndSocketLocation,
-		ShapeRotation,
-		CollisionObjectParams,
-		CollisionCapsule,
-		TraceParams
-	) };
-
-	if (bDebugMode)
+	for (const FTraceSockets Socket : Sockets)
 	{
-		FVector CenterPoint{ UKismetMathLibrary::VLerp(
-			StartSocketLocation, EndSocketLocation, 0.5f
-		) };
+		TArray<FHitResult> OutResults;
 
-		UKismetSystemLibrary::DrawDebugCapsule(
-			GetWorld(),
-			CenterPoint,
-			CollisionCapsule.GetCapsuleHalfHeight(),
-			Radius,
-			ShapeRotation.Rotator(),
-			hasFoundTargets ? FColor::Green : FColor::Red,
-			//true,
-			3.0f,
-			//0,
-			2.0f
+		// Get Socket Locations
+		FVector StartSocketLocation{ SkeletalComp->GetSocketLocation(Socket.Start) };
+		FVector EndSocketLocation{ SkeletalComp->GetSocketLocation(Socket.End) };
+		FQuat ShapeRotation{ SkeletalComp->GetSocketQuaternion(Socket.Rotation) };
+
+		// list of actors to search for!
+		FCollisionObjectQueryParams CollisionObjectParams{ ECC_Pawn };
+
+		FVector WeaponDistance{ StartSocketLocation - EndSocketLocation }; 
+		FVector BoxHalfExtent{ 10.0, 10.0, WeaponDistance.Size() / 2 };
+		FCollisionShape CollisionBox{ FCollisionShape::MakeBox(BoxHalfExtent) }; 
+
+		// list of actors to ignore
+		FCollisionQueryParams TraceParams{ 
+			FName(TEXT("CollisionParams")), false, PawnRef
+		}; 
+		hasFoundTargets = GetWorld()->SweepMultiByObjectType(
+			OutResults,
+			StartSocketLocation,
+			EndSocketLocation,
+			ShapeRotation,
+			CollisionObjectParams,
+			CollisionBox,
+			TraceParams
 		);
-	}
 
-	if (!hasFoundTargets) { return; }
+		for (FHitResult Hit : OutResults)
+		{
+			
+			AllResults.Add(Hit);
+		}
+
+		if (bDebugMode)
+		{
+			FVector CenterPoint{ UKismetMathLibrary::VLerp(
+				StartSocketLocation, EndSocketLocation, 0.5f
+			) };
+
+			UKismetSystemLibrary::DrawDebugBox(
+				GetWorld(),
+				CenterPoint,
+				CollisionBox.GetExtent(),
+				hasFoundTargets ? FColor::Green : FColor::Red, 
+				ShapeRotation.Rotator(),
+				3.0f, // Duration
+				2.0f // Thickness
+			);
+		}
+	}
+	
+	if (AllResults.Num() <= 0) { return; }
 
 	// To Fix
 
@@ -96,10 +106,10 @@ void UTraceComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 	
 	FDamageEvent TargetAttackedEvent{ };
 
-	for (FHitResult Hit : OutResults)
+	for (const FHitResult Hit : AllResults)
 	{
 		AActor* TargetActor = Hit.GetActor();
-		
+
 		if (IgnoreTargets.Contains(TargetActor) || TargetActor->ActorHasTag(IgnoreActorTag)) { continue; }
 		
 		TargetActor->TakeDamage(
@@ -111,7 +121,6 @@ void UTraceComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 
 		IgnoreTargets.AddUnique(TargetActor);
 	}
-	
 }
 
 void UTraceComponent::HandleResetAttack()
