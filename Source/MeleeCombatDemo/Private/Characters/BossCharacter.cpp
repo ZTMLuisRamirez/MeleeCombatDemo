@@ -8,6 +8,7 @@
 #include "Combat/TraceComponent.h"
 #include "Combat/AttackComponent.h"
 #include "Characters/StatsComponent.h"
+#include "Characters/RotationComponent.h"
 
 // Sets default values
 ABossCharacter::ABossCharacter()
@@ -19,6 +20,7 @@ ABossCharacter::ABossCharacter()
 	EnemyProjectileComp = CreateDefaultSubobject<UEnemyProjectileComponent>(TEXT("EnemyProjectileComponent"));
 	AttackComp = CreateDefaultSubobject<UAttackComponent>(TEXT("AttackComponent"));
 	StatsComp = CreateDefaultSubobject<UStatsComponent>(TEXT("StatsComponent"));
+	RotationComp = CreateDefaultSubobject<URotationComponent>(TEXT("RotationComponent"));
 }
 
 // Called when the game starts or when spawned
