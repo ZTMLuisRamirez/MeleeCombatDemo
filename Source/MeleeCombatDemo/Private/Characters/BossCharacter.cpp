@@ -4,6 +4,7 @@
 #include "Characters/BossCharacter.h"
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "Combat/EnemyProjectileComponent.h"
 
 // Sets default values
 ABossCharacter::ABossCharacter()
@@ -36,5 +37,10 @@ void ABossCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+AEnemyProjectile* ABossCharacter::GetProjectileComponent()
+{
+	return EnemyProjectileComp;
 }
 

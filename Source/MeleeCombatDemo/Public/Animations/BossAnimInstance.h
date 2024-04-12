@@ -20,6 +20,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float VerticalSpeed{ 0.f };
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UEnemyProjectileComponent* ProjectileComp;
+
 	virtual void NativeInitializeAnimation() override;
 
 	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds) override;

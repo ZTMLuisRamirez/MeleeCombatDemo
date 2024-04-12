@@ -2,12 +2,17 @@
 
 
 #include "Animations/BossAnimInstance.h"
+#include "Combat/EnemyProjectileComponent.h"
 
 void UBossAnimInstance::NativeInitializeAnimation()
 {
 	Super::NativeInitializeAnimation();
 
 	ActorRef = TryGetPawnOwner();
+
+	if (!IsValid(ActorRef)) { return; }
+
+	ProjectileComp = ActorRef->FindComponentByClass<UEnemyProjectileComponent>();
 }
 
 void UBossAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSeconds)
