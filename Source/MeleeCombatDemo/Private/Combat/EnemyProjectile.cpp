@@ -47,6 +47,16 @@ void AEnemyProjectile::HandleBeginOverlap(AActor* OtherActor)
 		this
 	);
 
+	BeginExplosion();
+}
+
+void AEnemyProjectile::DestroyProjectile()
+{
+	Destroy();
+}
+
+void AEnemyProjectile::BeginExplosion()
+{
 	// Stop projectile movement
 	UProjectileMovementComponent* MovementComp = GetComponentByClass<UProjectileMovementComponent>();
 	MovementComp->StopMovementImmediately();
@@ -63,10 +73,5 @@ void AEnemyProjectile::HandleBeginOverlap(AActor* OtherActor)
 		0.5f,
 		false
 	);
-}
-
-void AEnemyProjectile::DestroyProjectile()
-{
-	Destroy();
 }
 

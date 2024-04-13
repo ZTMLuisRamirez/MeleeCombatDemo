@@ -34,4 +34,7 @@ public:
 
 	UFUNCTION()
 	void DestroyProjectile();
+
+	UFUNCTION(BlueprintCallable)
+	void BeginExplosion();
 };
