@@ -7,6 +7,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Combat/ELockonDirection.h"
+#include "GameFramework/SpringArmComponent.h"
 
 // Sets default values for this component's properties
 ULockonComponent::ULockonComponent()
@@ -25,6 +26,8 @@ void ULockonComponent::BeginPlay()
 	Super::BeginPlay();
 
 	ActorRef = GetOwner();
+
+	SpringArmComp = ActorRef->FindComponentByClass<USpringArmComponent>();
 }
 
 
@@ -134,6 +137,9 @@ void ULockonComponent::StartLockon(float Radius)
 	MovementComp->bOrientRotationToMovement = false;
 	MovementComp->bUseControllerDesiredRotation = true;
 
+	// Adjust Camera
+	SpringArmComp->TargetOffset = FVector{ 0.0, 0.0, 100.0 };
+
 	IEnemy* ITargetable = Cast<IEnemy>(
 		CurrentTargetActor
 	);
@@ -161,6 +167,9 @@ void ULockonComponent::EndLockon()
 
 	MovementComp->bOrientRotationToMovement = true;
 	MovementComp->bUseControllerDesiredRotation = false;
+
+	// Adjust Camera
+	SpringArmComp->TargetOffset = FVector::ZeroVector;
 
 	OnUpdatedTargetDelegate.Broadcast(CurrentTargetActor);
 }

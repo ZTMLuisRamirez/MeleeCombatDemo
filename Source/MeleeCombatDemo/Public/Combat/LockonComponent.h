@@ -21,6 +21,8 @@ class MELEECOMBATDEMO_API ULockonComponent : public UActorComponent
 
 	AActor* ActorRef;
 
+	class USpringArmComponent* SpringArmComp;
+
 public:	
 	// Sets default values for this component's properties
 	ULockonComponent();
