@@ -18,8 +18,13 @@ class MELEECOMBATDEMO_API UBossWidget : public UUserWidget
 
 	class UStatsComponent* StatsComp;
 
+	class UTextBlock* TextWidget;
+
 	UPROPERTY(EditAnywhere)
 	FName HealthBarName;
+
+	UPROPERTY(EditAnywhere)
+	FName BossName;
 
 protected:
 	void NativeConstruct();
@@ -27,4 +32,7 @@ protected:
 public: 
 	UFUNCTION(BlueprintCallable)
 	void UpdateHealthBar(float CurrentVal, float MaxVal);
+
+	UFUNCTION(BlueprintCallable)
+	void UpdateBossNameWidget(FText NewName);
 };

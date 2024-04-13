@@ -36,6 +36,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class URotationComponent* RotationComp;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FText BossDisplayName;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
