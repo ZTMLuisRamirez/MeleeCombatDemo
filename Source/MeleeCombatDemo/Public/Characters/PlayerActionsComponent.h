@@ -38,6 +38,9 @@ class MELEECOMBATDEMO_API UPlayerActionsComponent : public UActorComponent
 
 	IMainPlayer* IPlayerRef;
 
+	UPROPERTY(VisibleAnywhere)
+	bool bCanRoll{ true };
+
 public:
 	UPROPERTY(BlueprintAssignable)
 	FOnSprintSignature OnSprintDelegate;

@@ -42,9 +42,13 @@ void UPlayerActionsComponent::Walk()
 
 void UPlayerActionsComponent::Roll()
 {
+	if (!bCanRoll) { return; }
+
 	if (!IPlayerRef->HasEnoughStamina(RollCost)) { return; }
 
 	if (OwnerRef->GetCharacterMovement()->Velocity.Length() < 1) { return; }
+
+	bCanRoll = false;
 
 	OnRollDelegate.Broadcast(RollCost);
 
@@ -65,11 +69,11 @@ void UPlayerActionsComponent::Roll()
 		Duration,
 		false
 	);
-
-	// Check if the player can roll again
 }
 
 void UPlayerActionsComponent::FinishRollAnim()
 {
+	bCanRoll = true;
+
 	OnRollCompleteDelegate.Broadcast();
 }
