@@ -3,12 +3,17 @@
 
 #include "Animations/PlayerAnimInstance.h"
 #include "GameFramework/PawnMovementComponent.h"
+#include "Characters/MainCharacter.h"
 
 void UPlayerAnimInstance::NativeInitializeAnimation()
 {
 	Super::NativeInitializeAnimation();
 
 	PawnRef = TryGetPawnOwner();
+
+	if (!IsValid(PawnRef)) { return; }
+
+	MainCharacterRef = Cast<AMainCharacter>(PawnRef);
 }
 
 void UPlayerAnimInstance::UpdateSpeedWithVelocity()
@@ -42,14 +47,4 @@ void UPlayerAnimInstance::CombatCheck()
 		PawnRef->GetVelocity(),
 		PawnRef->GetActorRotation()
 	);
-}
-
-void UPlayerAnimInstance::RaiseResetAttackCombo()
-{
-	OnResetAttackComboDelegate.Broadcast();
-}
-
-void UPlayerAnimInstance::RaiseResetAttack()
-{
-	OnResetAttackDelegate.Broadcast();
 }

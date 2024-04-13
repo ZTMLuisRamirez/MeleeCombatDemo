@@ -86,10 +86,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ComboAttack();
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void HandleResetAttackCombo();
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void HandleResetAttack();
 
 	void RandomAttack();

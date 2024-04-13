@@ -6,9 +6,6 @@
 #include "Animation/AnimInstance.h"
 #include "PlayerAnimInstance.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnResetAttackComboSignature);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnResetAttackSignature);
-
 /**
  * 
  */
@@ -31,18 +28,15 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float Direction{ 0 };
 
+	UPROPERTY(BlueprintReadWrite);
+	class AMainCharacter* MainCharacterRef;
+
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bIsInCombat{ false };
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bIsBlocking{ false };
-
-	UPROPERTY(BlueprintAssignable)
-	FOnResetAttackComboSignature OnResetAttackComboDelegate;
-
-	UPROPERTY()
-	FOnResetAttackSignature OnResetAttackDelegate;
 
 	UFUNCTION(BlueprintCallable, Meta = (HideSelfPin = "true"))
 	void UpdateSpeedWithVelocity();
@@ -55,10 +49,4 @@ public:
 
 	UFUNCTION(BlueprintCallable, Meta = (HideSelfPin = "true"))
 	void CombatCheck();
-
-	UFUNCTION(BlueprintCallable, Meta = (HideSelfPin = "true"))
-	void RaiseResetAttackCombo();
-
-	UFUNCTION(BlueprintCallable, Meta = (HideSelfPin = "true"))
-	void RaiseResetAttack();
 };

@@ -33,17 +33,9 @@ void AMainCharacter::BeginPlay()
 
 	if (PlayerAnim != nullptr)
 	{
-		PlayerAnim->OnResetAttackComboDelegate.AddDynamic(
-			AttackComp, &UAttackComponent::HandleResetAttackCombo
-		);
-
-		PlayerAnim->OnResetAttackDelegate.AddDynamic(
-			AttackComp, &UAttackComponent::HandleResetAttack
-		);
-
-		PlayerAnim->OnResetAttackDelegate.AddDynamic(
-			TraceComp, &UTraceComponent::HandleResetAttack
-		);
+		//PlayerAnim->OnResetAttackDelegate.AddDynamic(
+		//	TraceComp, &UTraceComponent::HandleResetAttack
+		//);
 	}
 }
 
