@@ -10,7 +10,6 @@
 #include "Blueprint/UserWidget.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "UI/PlayerUserWidget.h"
-#include "Kismet/KismetMathLibrary.h"
 #include "Characters/PlayerActionsComponent.h"
 
 // Sets default values
@@ -150,25 +149,4 @@ void AMainCharacter::LoadWidget()
 void AMainCharacter::ToggleBlock(bool bBlockFlag)
 {
 	PlayerAnim->bIsBlocking = bBlockFlag;
-}
-
-void AMainCharacter::Roll()
-{
-	if (!HasEnoughStamina(AttackComp->RollStaminaCost)) { return; }
-	
-	if (GetCharacterMovement()->Velocity.Length() < 1) { return; } 
-
-	AttackComp->BroadcastRollDelegate();
-
-	StatsComp->DelayStaminaRegen();
-
-	FRotator NewRotation = UKismetMathLibrary::MakeRotFromX(
-		GetLastMovementInputVector()
-	);
-
-	SetActorRotation(NewRotation);
-
-	PlayAnimMontage(RollAnimation);
-
-	// Check if the player can roll again
 }

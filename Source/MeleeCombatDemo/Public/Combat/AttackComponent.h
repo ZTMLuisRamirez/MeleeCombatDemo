@@ -25,13 +25,6 @@ DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(
 	float, Cost
 );
 
-DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(
-	FOnRollSignature,
-	UAttackComponent, OnRollDelegate,
-	float, Cost
-);
-
-
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MELEECOMBATDEMO_API UAttackComponent : public UActorComponent
 {
@@ -69,12 +62,6 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FOnBlockSignature OnBlockDelegate;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-	float RollStaminaCost{ 5.0f };
-
-	UPROPERTY(BlueprintAssignable)
-	FOnRollSignature OnRollDelegate;
-
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -95,6 +82,4 @@ public:
 	void RandomAttack();
 
 	void BroadcastBlockDelegate();
-
-	void BroadcastRollDelegate();
 };

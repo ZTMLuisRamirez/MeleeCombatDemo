@@ -81,9 +81,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void HandleBlock(float Amount);
 
-	UFUNCTION(BlueprintCallable)
-	void HandleRoll(float Amount);
-
 	void BroadcastHealthUpdate();
 
 	UFUNCTION(BlueprintCallable)

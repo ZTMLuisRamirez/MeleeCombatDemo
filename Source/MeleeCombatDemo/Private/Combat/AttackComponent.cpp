@@ -90,8 +90,3 @@ void UAttackComponent::BroadcastBlockDelegate()
 {
 	OnBlockDelegate.Broadcast(BlockStaminaCost);
 }
-
-void UAttackComponent::BroadcastRollDelegate()
-{
-	OnRollDelegate.Broadcast(RollStaminaCost);
-}

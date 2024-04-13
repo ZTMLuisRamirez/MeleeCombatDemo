@@ -55,9 +55,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UAnimMontage* BlockAnimation;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	UAnimMontage* RollAnimation;
-
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSubclassOf<class UCameraShakeBase> CameraShakeTemplate;
 
@@ -84,7 +81,4 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void ToggleBlock(bool bBlockFlag);
-
-	UFUNCTION(BlueprintCallable)
-	void Roll();
 };

@@ -18,6 +18,17 @@ DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE(
 	UPlayerActionsComponent, OnWalkDelegate
 );
 
+DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(
+	FOnRollSignature,
+	UPlayerActionsComponent, OnRollDelegate,
+	float, Cost
+);
+
+DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE(
+	FOnRollCompleteSignature,
+	UPlayerActionsComponent, OnRollCompleteDelegate
+);
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MELEECOMBATDEMO_API UPlayerActionsComponent : public UActorComponent
 {
@@ -33,6 +44,15 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FOnWalkSignature OnWalkDelegate;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnRollSignature OnRollDelegate;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UAnimMontage* RollAnimation;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnRollCompleteSignature OnRollCompleteDelegate;
 
 protected:
 	// Called when the game starts
@@ -50,10 +70,19 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float WalkSpeed{ 600.0f };
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float RollCost{ 5.0f };
+
 public:	
 	UFUNCTION(BlueprintCallable)
 	void Sprint();
 
 	UFUNCTION(BlueprintCallable)
 	void Walk();
+
+	UFUNCTION(BlueprintCallable)
+	void Roll();
+
+	UFUNCTION()
+	void FinishRollAnim();
 };
