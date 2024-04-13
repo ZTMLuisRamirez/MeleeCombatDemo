@@ -6,6 +6,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "Characters/StatsComponent.h"
 #include "Interfaces/Combat.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
 UTraceComponent::UTraceComponent()
@@ -120,6 +121,14 @@ void UTraceComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 		);
 
 		IgnoreTargets.AddUnique(TargetActor);
+
+		// Spawn Bloods
+		UGameplayStatics::SpawnEmitterAtLocation(
+			GetWorld(),
+			HitParticlesTemplate,
+			Hit.Location,
+			UKismetMathLibrary::MakeRotFromZ(Hit.Normal)
+		);
 	}
 }
 

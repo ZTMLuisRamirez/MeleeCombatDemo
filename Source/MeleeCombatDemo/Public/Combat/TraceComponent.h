@@ -38,6 +38,9 @@ class MELEECOMBATDEMO_API UTraceComponent : public UActorComponent
 	UPROPERTY(EditAnywhere)
 	FName IgnoreActorTag;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	UParticleSystem* HitParticlesTemplate;
+
 public:	
 	// Sets default values for this component's properties
 	UTraceComponent();
