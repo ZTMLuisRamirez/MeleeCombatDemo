@@ -151,7 +151,6 @@ void AMainCharacter::ReceiveDamage(float Damage, AActor* DamageCauser)
 		}
 	}
 
-
 	StatsComp->Stats[StatType::Health] -= Damage;
 
 	PlayerWidget->AdjustHealth(
@@ -164,6 +163,11 @@ void AMainCharacter::ReceiveDamage(float Damage, AActor* DamageCauser)
 		StatsComp->HandleAttackComplete();
 
 		float Duration = PlayAnimMontage(HitAnimation);
+
+		// Perform Camera Shake
+		GetController<APlayerController>()->ClientStartCameraShake(
+			CameraShakeTemplate
+		);
 
 	//	GetWorldTimerManager().SetTimer(
 	//		AttackTimerHandle,

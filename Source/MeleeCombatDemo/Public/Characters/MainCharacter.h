@@ -53,6 +53,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UAnimMontage* RollAnimation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TSubclassOf<class UCameraShakeBase> CameraShakeTemplate;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
