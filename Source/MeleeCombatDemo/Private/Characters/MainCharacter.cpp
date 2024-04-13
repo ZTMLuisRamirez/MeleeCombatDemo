@@ -30,11 +30,6 @@ UPlayerAnimInstance* AMainCharacter::GetPlayerAnimInstance() const
 	return Cast<UPlayerAnimInstance>(GetMesh()->GetAnimInstance());;
 }
 
-void AMainCharacter::ToggleTrace(bool bIsTracing)
-{
-	TraceComp->bIsAttacking = bIsTracing;
-}
-
 void AMainCharacter::LoadPlayerHUD()
 {
 	UUserWidget* WidgetInstance = UUserWidget::CreateWidgetInstance(

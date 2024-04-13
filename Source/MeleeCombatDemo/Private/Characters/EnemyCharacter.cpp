@@ -141,11 +141,6 @@ float AEnemyCharacter::GetAnimDuration()
 	return AttackComp->AnimDuration;
 }
 
-void AEnemyCharacter::ToggleTrace(bool bIsTracing)
-{
-	TraceComp->bIsAttacking = bIsTracing;
-}
-
 void AEnemyCharacter::DetectPawn(APawn* DetectedPawn, APawn* PawnToDetect)
 {
 	

@@ -72,8 +72,6 @@ public:
 
 	virtual float GetAnimDuration() override;
 
-	virtual void ToggleTrace(bool bIsTracing) override;
-
 	UFUNCTION(BlueprintCallable, Meta = (HideSelfPin = "true"))
 	void DetectPawn(APawn* DetectedPawn, APawn* PawnToDetect);
 

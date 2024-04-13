@@ -62,8 +62,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	class UPlayerAnimInstance* GetPlayerAnimInstance() const;
 
-	virtual void ToggleTrace(bool bIsTracing) override;
-
 	UFUNCTION(BlueprintCallable)
 	void LoadPlayerHUD();
 
