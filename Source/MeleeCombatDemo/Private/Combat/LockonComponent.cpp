@@ -2,7 +2,7 @@
 
 
 #include "Combat/LockonComponent.h"
-#include "Interfaces/TargetableInterface.h"
+#include "Interfaces/Enemy.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -90,11 +90,11 @@ void ULockonComponent::StartLockon(float Radius)
 	{
 		AActor* ActorResultRef = result.GetActor();
 		bool hasLockonInterface = ActorResultRef->GetClass()
-			->ImplementsInterface(UTargetableInterface::StaticClass());
+			->ImplementsInterface(UEnemy::StaticClass());
 
 		if (!hasLockonInterface) { continue; }
 
-		ITargetableInterface* ITargetable = Cast<ITargetableInterface>(
+		IEnemy* ITargetable = Cast<IEnemy>(
 			ActorResultRef
 		);
 		
@@ -134,7 +134,7 @@ void ULockonComponent::StartLockon(float Radius)
 	MovementComp->bOrientRotationToMovement = false;
 	MovementComp->bUseControllerDesiredRotation = true;
 
-	ITargetableInterface* ITargetable = Cast<ITargetableInterface>(
+	IEnemy* ITargetable = Cast<IEnemy>(
 		CurrentTargetActor
 	);
 
@@ -145,7 +145,7 @@ void ULockonComponent::StartLockon(float Radius)
 
 void ULockonComponent::EndLockon()
 {
-	ITargetableInterface* ITarget = Cast<ITargetableInterface>(CurrentTargetActor);
+	IEnemy* ITarget = Cast<IEnemy>(CurrentTargetActor);
 
 	ITarget->OnDeselect();
 
@@ -215,7 +215,7 @@ void ULockonComponent::SwitchTarget(ELockonDirection InputDirection)
 
 		if (TargetDistance <= ClosestSwitchTargetDistance)
 		{
-			ITargetableInterface* IOriginalTarget = Cast<ITargetableInterface>(CurrentTargetActor);
+			IEnemy* IOriginalTarget = Cast<IEnemy>(CurrentTargetActor);
 			
 			if (IOriginalTarget) { IOriginalTarget->OnDeselect(); }
 		
@@ -223,7 +223,7 @@ void ULockonComponent::SwitchTarget(ELockonDirection InputDirection)
 			CurrentTargetActor = PotentialTarget;
 			bHasFoundNewTarget = true;
 
-			ITargetableInterface* INewTarget = Cast<ITargetableInterface>(CurrentTargetActor);
+			IEnemy* INewTarget = Cast<IEnemy>(CurrentTargetActor);
 			
 			if (INewTarget) { INewTarget->OnSelect(); }
 		}

@@ -27,5 +27,9 @@ public:
 
 	virtual float GetAnimDuration() { return 0.0f; }
 
-	//virtual class AEnemyProjectile* GetProjectileComponent() { return nullptr; };
+	virtual void OnSelect() {}
+
+	virtual void OnDeselect() {}
+
+	virtual bool IsDead() { return false; }
 };

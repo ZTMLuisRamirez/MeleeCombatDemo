@@ -13,6 +13,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Blueprint/UserWidget.h"
 #include "UI/BossWidget.h"
+#include "Components/WidgetComponent.h"
 
 // Sets default values
 ABossCharacter::ABossCharacter()
@@ -36,6 +37,8 @@ void ABossCharacter::BeginPlay()
 		TEXT("CurrentState"),
 		InitialState
 	);
+
+	LockonWidget = FindComponentByClass<UWidgetComponent>();
 
 	WidgetInstance = Cast<UBossWidget>(UUserWidget::CreateWidgetInstance(
 		*GetWorld(), WidgetTemplate, "Boss HUD"
@@ -132,4 +135,19 @@ void ABossCharacter::DetectPawn(APawn* DetectedPawn, APawn* PawnToDetect)
 	WidgetInstance->AddToViewport(10);
 
 	StatsComp->BroadcastHealthUpdate();
+}
+
+void ABossCharacter::OnSelect()
+{
+	LockonWidget->SetVisibility(true);
+}
+
+void ABossCharacter::OnDeselect()
+{
+	LockonWidget->SetVisibility(false);
+}
+
+bool ABossCharacter::IsDead()
+{
+	return StatsComp->Stats[StatType::Health] <= 0;
 }

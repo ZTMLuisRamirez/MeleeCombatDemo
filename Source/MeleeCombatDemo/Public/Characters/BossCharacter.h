@@ -17,6 +17,8 @@ class MELEECOMBATDEMO_API ABossCharacter : public ACharacter, public IEnemy, pub
 	UPROPERTY(EditAnywhere, meta = (MetaClass = "UserWidget"))
 	TSubclassOf<class UBossWidget> WidgetTemplate;
 
+	class UWidgetComponent* LockonWidget;
+
 public:
 	// Sets default values for this character's properties
 	ABossCharacter();
@@ -70,5 +72,11 @@ public:
 
 	UFUNCTION(BlueprintCallable, Meta = (HideSelfPin = "true"))
 	void DetectPawn(APawn* DetectedPawn, APawn* PawnToDetect);
+
+	virtual void OnSelect() override;
+
+	virtual void OnDeselect() override;
+
+	virtual bool IsDead() override;
 };
  
