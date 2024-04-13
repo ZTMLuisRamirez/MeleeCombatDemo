@@ -24,28 +24,6 @@ AMainCharacter::AMainCharacter()
 	StatsComp = CreateDefaultSubobject<UStatsComponent>(TEXT("StatsComponent"));
 }
 
-// Called when the game starts or when spawned
-void AMainCharacter::BeginPlay()
-{
-	Super::BeginPlay();
-	
-	PlayerAnim = Cast<UPlayerAnimInstance>(GetMesh()->GetAnimInstance());
-
-	if (PlayerAnim != nullptr)
-	{
-		//PlayerAnim->OnResetAttackDelegate.AddDynamic(
-		//	TraceComp, &UTraceComponent::HandleResetAttack
-		//);
-	}
-}
-
-// Called every frame
-void AMainCharacter::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
-
 // Called to bind functionality to input
 void AMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
