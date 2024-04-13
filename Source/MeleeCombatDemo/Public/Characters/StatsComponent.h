@@ -72,6 +72,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void HandleAttackComplete();
 
+	UFUNCTION(BlueprintCallable)
 	void DelayStaminaRegen();
 
 	UFUNCTION()
@@ -84,4 +85,7 @@ public:
 	void HandleRoll(float Amount);
 
 	void BroadcastHealthUpdate();
+
+	UFUNCTION(BlueprintCallable)
+	void ReduceStamina(float Amount);
 };

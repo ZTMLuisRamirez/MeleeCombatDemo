@@ -7,10 +7,11 @@
 #include "Interfaces/AttackTracing.h"
 #include "Interfaces/Stamina.h"
 #include "Interfaces/Combat.h"
+#include "Interfaces/MainPlayer.h"
 #include "MainCharacter.generated.h"
 
 UCLASS()
-class MELEECOMBATDEMO_API AMainCharacter : public ACharacter, public IAttackTracing, public IStamina, public ICombat
+class MELEECOMBATDEMO_API AMainCharacter : public ACharacter, public IMainPlayer, public IAttackTracing, public IStamina, public ICombat
 {
 	GENERATED_BODY()
 
@@ -40,6 +41,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UStatsComponent* StatsComp;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UPlayerActionsComponent* PlayerActionsComp;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UAnimMontage* HitAnimation;
 
@@ -58,9 +62,6 @@ public:
 	TSubclassOf<class UCameraShakeBase> CameraShakeTemplate;
 
 public:	
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
 	UFUNCTION(BlueprintCallable)
 	class UPlayerAnimInstance* GetPlayerAnimInstance() const;
 
@@ -70,12 +71,6 @@ public:
 	void LoadPlayerHUD();
 
 	virtual bool HasEnoughStamina(float RequiredCost) override;
-
-	UFUNCTION(BlueprintCallable, Meta = (HideSelfPin = "true"))
-	void Sprint();
-
-	UFUNCTION(BlueprintCallable, Meta = (HideSelfPin = "true"))
-	void Walk();
 
 	virtual float GetDamage() override;
 

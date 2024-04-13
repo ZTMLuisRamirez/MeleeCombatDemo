@@ -11,6 +11,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "UI/PlayerUserWidget.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Characters/PlayerActionsComponent.h"
 
 // Sets default values
 AMainCharacter::AMainCharacter()
@@ -22,13 +23,7 @@ AMainCharacter::AMainCharacter()
 	AttackComp = CreateDefaultSubobject<UAttackComponent>(TEXT("AttackComponent"));
 	TraceComp = CreateDefaultSubobject<UTraceComponent>(TEXT("TraceComponent"));
 	StatsComp = CreateDefaultSubobject<UStatsComponent>(TEXT("StatsComponent"));
-}
-
-// Called to bind functionality to input
-void AMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
+	PlayerActionsComp = CreateDefaultSubobject<UPlayerActionsComponent>(TEXT("PlayerActionsComponent"));
 }
 
 UPlayerAnimInstance* AMainCharacter::GetPlayerAnimInstance() const
@@ -58,28 +53,6 @@ void AMainCharacter::LoadPlayerHUD()
 bool AMainCharacter::HasEnoughStamina(float RequiredCost)
 {
 	return StatsComp->Stats[StatType::Stamina] >= RequiredCost;
-}
-
-void AMainCharacter::Sprint()
-{
-	if (!HasEnoughStamina(1.0f))
-	{
-		Walk();
-		return;
-	}
-
-	if (GetCharacterMovement()->Velocity.Length() < 1) { return; }
-
-	GetCharacterMovement()->MaxWalkSpeed = StatsComp->Stats[StatType::SprintSpeed];
-	StatsComp->Stats[StatType::Stamina] -= 0.1f;
-	StatsComp->bCanRegen = false;
-}
-
-void AMainCharacter::Walk()
-{
-	GetCharacterMovement()->MaxWalkSpeed = StatsComp->Stats[StatType::WalkSpeed];
-
-	StatsComp->DelayStaminaRegen(); 
 }
 
 float AMainCharacter::GetDamage()

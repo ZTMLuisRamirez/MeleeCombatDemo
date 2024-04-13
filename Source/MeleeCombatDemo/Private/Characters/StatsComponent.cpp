@@ -124,3 +124,15 @@ void UStatsComponent::BroadcastHealthUpdate()
 		Stats[StatType::Health], Stats[StatType::MaxHealth]
 	);
 }
+
+void UStatsComponent::ReduceStamina(float Amount)
+{
+	bCanRegen = false;
+
+	Stats[StatType::Stamina] -= Amount;
+	Stats[StatType::Stamina] = UKismetMathLibrary::FClamp(
+		Stats[StatType::Stamina],
+		0,
+		Stats[StatType::MaxStamina]
+	);
+}
