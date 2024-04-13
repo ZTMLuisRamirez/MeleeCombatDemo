@@ -22,6 +22,13 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
 	FOnUpdateStatSignature, StatType, TargetStat, float, NewVal
 );
 
+DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_TwoParams(
+	FOnHealthUpdateSignature, 
+	UStatsComponent, OnHealthUpdateDelegate,
+	float, CurrentHealthVal, 
+	float, MaxHealthVal
+);
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MELEECOMBATDEMO_API UStatsComponent : public UActorComponent
 {
@@ -38,6 +45,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	bool bCanRegen{ true };
+
+	UPROPERTY(BlueprintAssignable)
+	FOnHealthUpdateSignature OnHealthUpdateDelegate;
 
 protected:
 	// Called when the game starts
@@ -72,4 +82,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void HandleRoll(float Amount);
+
+	void BroadcastHealthUpdate();
 };

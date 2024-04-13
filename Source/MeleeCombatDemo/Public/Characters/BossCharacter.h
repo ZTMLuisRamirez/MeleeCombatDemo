@@ -13,6 +13,10 @@ UCLASS()
 class MELEECOMBATDEMO_API ABossCharacter : public ACharacter, public IEnemy, public ICombat
 {
 	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, meta = (MetaClass = "UserWidget"))
+	TSubclassOf<class UBossWidget> WidgetTemplate;
+
 public:
 	// Sets default values for this character's properties
 	ABossCharacter();
@@ -42,6 +46,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UAnimMontage* DeathAnimation;
 
+	UPROPERTY(BlueprintReadWrite)
+	class UBossWidget* WidgetInstance;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -57,4 +64,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Meta = (HideSelfPin = "true"))
 	void ReceiveDamage(float Damage); 
+
+	UFUNCTION(BlueprintCallable, Meta = (HideSelfPin = "true"))
+	void DetectPawn(APawn* DetectedPawn, APawn* PawnToDetect);
 };
+ 

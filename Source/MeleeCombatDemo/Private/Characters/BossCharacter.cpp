@@ -11,6 +11,8 @@
 #include "Characters/RotationComponent.h"
 #include "BrainComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Blueprint/UserWidget.h"
+#include "UI/BossWidget.h"
 
 // Sets default values
 ABossCharacter::ABossCharacter()
@@ -34,6 +36,10 @@ void ABossCharacter::BeginPlay()
 		TEXT("CurrentState"),
 		InitialState
 	);
+
+	WidgetInstance = Cast<UBossWidget>(UUserWidget::CreateWidgetInstance(
+		*GetWorld(), WidgetTemplate, "Boss HUD"
+	));
 }
 
 // Called every frame
@@ -71,6 +77,8 @@ void ABossCharacter::ReceiveDamage(float Damage)
 
 	StatsComp->Stats[StatType::Health] -= Damage;
 
+	StatsComp->BroadcastHealthUpdate();
+
 	if (StatsComp->Stats[StatType::Health] > 0) { return; }
 
 	GetController<AAIController>()->GetBrainComponent()->StopLogic("defeated");
@@ -95,4 +103,33 @@ void ABossCharacter::ReceiveDamage(float Damage)
 	if (!CombatRef) { return; }
 
 	CombatRef->EndLockonWithActor(this);
+}
+
+void ABossCharacter::DetectPawn(APawn* DetectedPawn, APawn* PawnToDetect)
+{
+
+	UBlackboardComponent* BlackboardComp{
+		GetController<AAIController>()->GetBlackboardComponent()
+	};
+
+	EEnemyState CurrentState{ static_cast<EEnemyState>(
+		BlackboardComp->GetValueAsEnum(TEXT("CurrentState"))
+	) };
+
+	if (
+		DetectedPawn != PawnToDetect || CurrentState == EEnemyState::Combat
+	) {
+		return;
+	}
+
+	BlackboardComp->SetValueAsEnum(
+		TEXT("CurrentState"),
+		EEnemyState::Combat
+	);
+
+	if (WidgetInstance->IsInViewport()) { return; }
+
+	WidgetInstance->AddToViewport(10);
+
+	StatsComp->BroadcastHealthUpdate();
 }

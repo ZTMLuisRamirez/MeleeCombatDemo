@@ -117,3 +117,10 @@ void UStatsComponent::HandleRoll(float Amount)
 		Stats[StatType::MaxStamina]
 	);
 }
+
+void UStatsComponent::BroadcastHealthUpdate()
+{
+	OnHealthUpdateDelegate.Broadcast(
+		Stats[StatType::Health], Stats[StatType::MaxHealth]
+	);
+}
