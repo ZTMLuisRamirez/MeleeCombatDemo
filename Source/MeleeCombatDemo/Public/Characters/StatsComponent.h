@@ -75,12 +75,6 @@ public:
 	FOnUpdateStatSignature OnUpdateStatDelegate;
 
 	UFUNCTION(BlueprintCallable)
-	void HandleAttackPerformed(float Amount);
-
-	UFUNCTION(BlueprintCallable)
-	void HandleAttackComplete();
-
-	UFUNCTION(BlueprintCallable)
 	void DelayStaminaRegen();
 
 	UFUNCTION()

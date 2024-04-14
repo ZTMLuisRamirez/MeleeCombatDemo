@@ -57,23 +57,6 @@ void UStatsComponent::RegenStamina()
 	OnUpdateStatDelegate.Broadcast(StatType::Stamina, Stats[StatType::Stamina]);
 }
 
-void UStatsComponent::HandleAttackPerformed(float Amount)
-{
-	bCanRegen = false;
-
-	Stats[StatType::Stamina] -= Amount;
-	Stats[StatType::Stamina] = UKismetMathLibrary::Clamp(
-		Stats[StatType::Stamina],
-		0,
-		Stats[StatType::MaxStamina]
-	);
-}
-
-void UStatsComponent::HandleAttackComplete()
-{
-	DelayStaminaRegen();
-}
-
 void UStatsComponent::DelayStaminaRegen()
 {
 	FLatentActionInfo FunctionInfo;

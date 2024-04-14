@@ -4,14 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Interfaces/AttackTracing.h"
 #include "Interfaces/Stamina.h"
 #include "Interfaces/Combat.h"
 #include "Interfaces/MainPlayer.h"
 #include "MainCharacter.generated.h"
 
 UCLASS()
-class MELEECOMBATDEMO_API AMainCharacter : public ACharacter, public IMainPlayer, public IAttackTracing, public IStamina, public ICombat
+class MELEECOMBATDEMO_API AMainCharacter : public ACharacter, public IMainPlayer, public IStamina, public ICombat
 {
 	GENERATED_BODY()
 
@@ -20,16 +19,6 @@ class MELEECOMBATDEMO_API AMainCharacter : public ACharacter, public IMainPlayer
 
 	UPROPERTY(EditAnywhere, meta = (MetaClass = "UserWidget"))
 	TSubclassOf<UUserWidget> DeathWidgetTemplate;
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	class UPlayerAnimInstance* PlayerAnim;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	class UPlayerUserWidget* PlayerWidget;
 
 public:
 	// Sets default values for this character's properties
@@ -53,10 +42,18 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UPlayerActionsComponent* PlayerActionsComp;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	UAnimMontage* DeathAnimMontage;
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
 
-	bool bIsDead{ false };
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	class UPlayerAnimInstance* PlayerAnim;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	class UPlayerUserWidget* PlayerWidget;
+
+	UPROPERTY(EditAnywhere)
+	UAnimMontage* DeathAnimMontage;
 
 public:	
 	UFUNCTION(BlueprintCallable)
