@@ -35,7 +35,7 @@ void UAttackComponent::ComboAttack()
 	int32 MaxCombo = AttackAnimations.Num();
 
 	OwnerRef->PlayAnimMontage(AttackAnimations[ComboCounter]);
-
+	
 	ComboCounter++;
 
 	ComboCounter = UKismetMathLibrary::Wrap(
