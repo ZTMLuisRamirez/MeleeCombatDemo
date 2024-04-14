@@ -10,26 +10,11 @@ void UPlayerUserWidget::NativeConstruct()
 	StaminaProgressBar = Cast<UProgressBar>(
 		GetWidgetFromName("StaminaProgressBar")
 	);
-
-	StatsComp = GetWorld()->GetFirstPlayerController()
-		->GetPawn()
-		->GetComponentByClass<UStatsComponent>();
-
-	if (IsValid(StatsComp)) 
-	{
-		StatsComp->OnUpdateStatDelegate.AddDynamic(
-			this, &UPlayerUserWidget::UpdateStaminaProgressBar
-		);
-	}
 }
 
-void UPlayerUserWidget::UpdateStaminaProgressBar(StatType TargetStat, float NewVal)
+void UPlayerUserWidget::UpdateStaminaProgressBar(float CurrentVal, float MaxVal)
 {
-	if (TargetStat != StatType::Stamina) { return; }
-
-	float Percentage{
-		StatsComp->Stats[StatType::Stamina] / StatsComp->Stats[StatType::MaxStamina]
-	};
+	float Percentage{ CurrentVal / MaxVal };
 
 	StaminaProgressBar->SetPercent(Percentage);
 }

@@ -13,13 +13,14 @@ enum StatType
 	MaxHealth UMETA(DisplayName = "Max Health"),
 	Strength UMETA(DisplayName = "Strength"),
 	Stamina UMETA(DisplayName = "Stamina"),
-	MaxStamina UMETA(DisplayName = "Max Stamina"),
-	WalkSpeed UMETA(DisplayName = "Walk Speed"),
-	SprintSpeed UMETA(DisplayName = "Sprint Speed")
+	MaxStamina UMETA(DisplayName = "Max Stamina")
 };
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
-	FOnUpdateStatSignature, StatType, TargetStat, float, NewVal
+DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_TwoParams(
+	FOnUpdateStatSignature, 
+	UStatsComponent, OnUpdateStaminaDelegate,
+	float, CurrentStaminaVal,
+	float, MaxStaminaVal
 );
 
 DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_TwoParams(
@@ -72,7 +73,7 @@ public:
 	void RegenStamina();
 
 	UPROPERTY(BlueprintAssignable)
-	FOnUpdateStatSignature OnUpdateStatDelegate;
+	FOnUpdateStatSignature OnUpdateStaminaDelegate;
 
 	UFUNCTION(BlueprintCallable)
 	void DelayStaminaRegen();

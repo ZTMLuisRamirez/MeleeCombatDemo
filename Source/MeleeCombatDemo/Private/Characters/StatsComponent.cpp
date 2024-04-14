@@ -36,11 +36,7 @@ void UStatsComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 
 void UStatsComponent::RegenStamina()
 {
-	if (!bCanRegen) 
-	{ 
-		OnUpdateStatDelegate.Broadcast(StatType::Stamina, Stats[StatType::Stamina]);
-		return; 
-	}
+	if (!bCanRegen) { return; }
 
 	if (!Stats.Contains(StatType::Stamina) || !Stats.Contains(StatType::MaxStamina))
 	{
@@ -54,7 +50,9 @@ void UStatsComponent::RegenStamina()
 		StaminaRegenRate
 	);
 
-	OnUpdateStatDelegate.Broadcast(StatType::Stamina, Stats[StatType::Stamina]);
+	OnUpdateStaminaDelegate.Broadcast(
+		Stats[StatType::Stamina], Stats[StatType::MaxStamina]
+	);
 }
 
 void UStatsComponent::DelayStaminaRegen()
@@ -93,6 +91,10 @@ void UStatsComponent::ReduceStamina(float Amount)
 		Stats[StatType::Stamina],
 		0,
 		Stats[StatType::MaxStamina]
+	);
+
+	OnUpdateStaminaDelegate.Broadcast(
+		Stats[StatType::Stamina], Stats[StatType::MaxStamina]
 	);
 }
 
