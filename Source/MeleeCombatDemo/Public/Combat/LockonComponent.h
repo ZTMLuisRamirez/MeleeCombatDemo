@@ -21,19 +21,16 @@ class MELEECOMBATDEMO_API ULockonComponent : public UActorComponent
 
 	AActor* ActorRef;
 
+	TArray<AActor*> Targets;
+
 	class USpringArmComponent* SpringArmComp;
 
 public:	
 	// Sets default values for this component's properties
 	ULockonComponent();
 
-	TArray<AActor*> Targets;
-
 	UPROPERTY(BlueprintReadOnly)
 	AActor* CurrentTargetActor;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	bool bShouldAutofocus{ true };
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	double BreakDistance{ 1000.0 };

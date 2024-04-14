@@ -36,8 +36,6 @@ void ULockonComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (!bShouldAutofocus) { return; }
-
 	// Check if there's a target to focus
 	if (!IsValid(CurrentTargetActor)) { return; }
 
