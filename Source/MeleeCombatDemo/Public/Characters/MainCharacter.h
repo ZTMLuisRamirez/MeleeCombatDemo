@@ -4,13 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Interfaces/Stamina.h"
 #include "Interfaces/Combat.h"
 #include "Interfaces/MainPlayer.h"
 #include "MainCharacter.generated.h"
 
 UCLASS()
-class MELEECOMBATDEMO_API AMainCharacter : public ACharacter, public IMainPlayer, public IStamina, public ICombat
+class MELEECOMBATDEMO_API AMainCharacter : public ACharacter, public IMainPlayer, public ICombat
 {
 	GENERATED_BODY()
 

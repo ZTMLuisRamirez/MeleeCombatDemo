@@ -54,9 +54,6 @@ class MELEECOMBATDEMO_API UAttackComponent : public UActorComponent
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<class UCameraShakeBase> CameraShakeTemplate;
 public:	
-	// Sets default values for this component's properties
-	UAttackComponent();
-
 	UPROPERTY(BlueprintAssignable)
 	FOnAttackPerformedSignature OnAttackPerformedDelegate;
 
@@ -74,9 +71,6 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
 	UFUNCTION(BlueprintCallable)
 	void ComboAttack();
 
