@@ -15,14 +15,20 @@ class MELEECOMBATDEMO_API AMainCharacter : public ACharacter, public IMainPlayer
 {
 	GENERATED_BODY()
 
-	class UPlayerAnimInstance* PlayerAnim; 
-
 	UPROPERTY(EditAnywhere, meta = (MetaClass = "UserWidget"))
 	TSubclassOf<UUserWidget> PlayerWidgetTemplate;
 
 	UPROPERTY(EditAnywhere, meta = (MetaClass = "UserWidget"))
 	TSubclassOf<UUserWidget> DeathWidgetTemplate;
 
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	class UPlayerAnimInstance* PlayerAnim;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	class UPlayerUserWidget* PlayerWidget;
 
 public:
@@ -42,26 +48,17 @@ public:
 	class UStatsComponent* StatsComp;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UBlockComponent* BlockComp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UPlayerActionsComponent* PlayerActionsComp;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	UAnimMontage* HitAnimation;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	UAnimMontage* DeathAnimation;
+	UAnimMontage* DeathAnimMontage;
 
 	bool bIsDead{ false };
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	UAnimMontage* BlockAnimation;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	TSubclassOf<class UCameraShakeBase> CameraShakeTemplate;
-
 public:	
-	UFUNCTION(BlueprintCallable)
-	class UPlayerAnimInstance* GetPlayerAnimInstance() const;
-
 	UFUNCTION(BlueprintCallable)
 	void LoadPlayerHUD();
 
@@ -71,12 +68,20 @@ public:
 
 	virtual void EndLockonWithActor(AActor* ActorRef) override;
 
-	UFUNCTION(BlueprintCallable, Meta = (HideSelfPin = "true"))
-	void ReceiveDamage(float Damage, AActor* DamageCauser);
-
 	UFUNCTION()
 	void LoadWidget();
 
 	UFUNCTION(BlueprintCallable)
 	void ToggleBlock(bool bBlockFlag);
+
+	virtual bool IsDead() override;
+
+	virtual bool IsBlocking(AActor* Opponent) override;
+
+	virtual bool IsPlayingBlockAnimation() override;
+
+	virtual float GetCharacterHealth() override;
+
+	UFUNCTION(BlueprintCallable)
+	void HandleDeath();
 };

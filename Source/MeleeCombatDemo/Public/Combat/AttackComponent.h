@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Interfaces/Combat.h"
 #include "AttackComponent.generated.h"
 
 class UAttackComponent;
@@ -14,15 +15,16 @@ DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(
 	float, Amount
 );
 
+
 DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE(
 	FOnAttackCompleteSignature,
 	UAttackComponent, OnAttackCompleteDelegate
 );
 
 DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(
-	FOnBlockSignature,
-	UAttackComponent, OnBlockDelegate,
-	float, Cost
+	FOnHitSignature,
+	UAttackComponent, OnHitDelegate,
+	float, Amount
 );
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -42,7 +44,15 @@ class MELEECOMBATDEMO_API UAttackComponent : public UActorComponent
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	float StaminaCost{ 15.0f };
 
-	ACharacter* OwnerCharacter;
+	ACharacter* OwnerRef;
+
+	ICombat* IFighterRef;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UAnimMontage* HitAnimMontage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<class UCameraShakeBase> CameraShakeTemplate;
 public:	
 	// Sets default values for this component's properties
 	UAttackComponent();
@@ -56,11 +66,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float AnimDuration;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-	float BlockStaminaCost{ 10.0f };
-
 	UPROPERTY(BlueprintAssignable)
-	FOnBlockSignature OnBlockDelegate;
+	FOnHitSignature OnHitDelegate;
 
 protected:
 	// Called when the game starts
@@ -81,5 +88,6 @@ public:
 
 	void RandomAttack();
 
-	void BroadcastBlockDelegate();
+	UFUNCTION(BlueprintCallable)
+	void ReceiveDamage(float Damage, AActor* DamageCauser);
 };

@@ -94,18 +94,6 @@ void UStatsComponent::EnableRegen()
 	bCanRegen = true;
 }
 
-void UStatsComponent::HandleBlock(float Amount)
-{
-	bCanRegen = false;
-
-	Stats[StatType::Stamina] -= Amount;
-	Stats[StatType::Stamina] = UKismetMathLibrary::Clamp(
-		Stats[StatType::Stamina],
-		0,
-		Stats[StatType::MaxStamina]
-	);
-}
-
 void UStatsComponent::BroadcastHealthUpdate()
 {
 	OnHealthUpdateDelegate.Broadcast(
@@ -123,4 +111,23 @@ void UStatsComponent::ReduceStamina(float Amount)
 		0,
 		Stats[StatType::MaxStamina]
 	);
+}
+
+void UStatsComponent::ReduceHealth(float Amount)
+{
+	Stats[StatType::Health] -= Amount;
+	Stats[StatType::Health] = UKismetMathLibrary::FClamp(
+		Stats[StatType::Health],
+		0,
+		Stats[StatType::MaxHealth]
+	);
+
+	OnHealthUpdateDelegate.Broadcast(
+		Stats[StatType::Health], Stats[StatType::MaxHealth]
+	);
+
+	if (Stats[StatType::Health] <= 0)
+	{
+		OnZeroHealthDelegate.Broadcast();
+	}
 }

@@ -29,6 +29,11 @@ DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_TwoParams(
 	float, MaxHealthVal
 );
 
+DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE(
+	FOnZeroHealthSignature,
+	UStatsComponent, OnZeroHealthDelegate
+);
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MELEECOMBATDEMO_API UStatsComponent : public UActorComponent
 {
@@ -48,6 +53,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FOnHealthUpdateSignature OnHealthUpdateDelegate;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnZeroHealthSignature OnZeroHealthDelegate;
 
 protected:
 	// Called when the game starts
@@ -78,11 +86,11 @@ public:
 	UFUNCTION()
 	void EnableRegen();
 
-	UFUNCTION(BlueprintCallable)
-	void HandleBlock(float Amount);
-
 	void BroadcastHealthUpdate();
 
 	UFUNCTION(BlueprintCallable)
 	void ReduceStamina(float Amount);
+
+	UFUNCTION(BlueprintCallable)
+	void ReduceHealth(float Amount);
 };

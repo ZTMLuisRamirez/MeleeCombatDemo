@@ -22,7 +22,11 @@ void UAttackComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	OwnerCharacter = Cast<ACharacter>(GetOwner());
+	OwnerRef = Cast<ACharacter>(GetOwner());
+
+	if (!OwnerRef->Implements<UCombat>()) { return; }
+
+	IFighterRef = Cast<ICombat>(OwnerRef);
 }
 
 
@@ -53,7 +57,7 @@ void UAttackComponent::ComboAttack()
 
 	int32 MaxCombo = AttackAnimations.Num();
 
-	OwnerCharacter->PlayAnimMontage(AttackAnimations[ComboCounter]);
+	OwnerRef->PlayAnimMontage(AttackAnimations[ComboCounter]);
 
 	ComboCounter++;
 
@@ -83,10 +87,33 @@ void UAttackComponent::RandomAttack()
 
 	int RandomIndex = FMath::RandRange(0, AttackAnimations.Num() - 1);
 
-	AnimDuration = OwnerCharacter->PlayAnimMontage(AttackAnimations[RandomIndex]);
+	AnimDuration = OwnerRef->PlayAnimMontage(AttackAnimations[RandomIndex]);
 }
 
-void UAttackComponent::BroadcastBlockDelegate()
+void UAttackComponent::ReceiveDamage(float Damage, AActor* DamageCauser)
 {
-	OnBlockDelegate.Broadcast(BlockStaminaCost);
+	if (IFighterRef->IsDead()) { return; }
+
+	// Check if player to determine if they can block
+	if (IFighterRef->IsBlocking(DamageCauser)) { return; }
+
+	// Character Damaged
+	OnHitDelegate.Broadcast(Damage);
+
+	// Check if character didn't die!
+	if (IFighterRef->GetCharacterHealth() > 0)
+	{
+		if (OwnerRef->IsPlayerControlled())
+		{
+			HandleResetAttack();
+
+			OwnerRef->PlayAnimMontage(HitAnimMontage);
+
+			// Perform Camera Shake
+			OwnerRef->GetController<APlayerController>()
+				->ClientStartCameraShake(
+					CameraShakeTemplate
+				);
+		}
+	}
 }

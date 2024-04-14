@@ -25,5 +25,6 @@ public:
 	UFUNCTION()
 	void UpdateStaminaProgressBar(enum StatType TargetStat, float NewVal);
 
+	UFUNCTION(BlueprintCallable)
 	void AdjustHealth(float CurrentVal, float MaxVal);
 };

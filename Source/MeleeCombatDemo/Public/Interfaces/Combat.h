@@ -30,4 +30,12 @@ public:
 	virtual void Attack() { };
 	
 	virtual float GetAnimDuration() { return 0.0f; };
+
+	virtual bool IsDead() { return false; }
+
+	virtual bool IsBlocking(AActor* Opponent) { return false; }
+
+	virtual bool IsPlayingBlockAnimation() { return false; }
+
+	virtual float GetCharacterHealth() { return 0.0f; }
 };
