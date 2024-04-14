@@ -16,21 +16,12 @@ class MELEECOMBATDEMO_API UTraceComponent : public UActorComponent
 	APawn* PawnRef;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-	float Radius{ 15.0f };
+	double BoxCollisionLength{ 30.0f };
 
 	USkeletalMeshComponent* SkeletalComp;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	TArray<FTraceSockets> Sockets;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-	FName StartSocket;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-	FName EndSocket;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-	FName RotationSocket;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	bool bDebugMode{ false };

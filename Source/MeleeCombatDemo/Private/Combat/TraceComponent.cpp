@@ -52,7 +52,9 @@ void UTraceComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 		FCollisionObjectQueryParams CollisionObjectParams{ ECC_Pawn };
 
 		FVector WeaponDistance{ StartSocketLocation - EndSocketLocation }; 
-		FVector BoxHalfExtent{ 30.0, 30.0, WeaponDistance.Size() / 2 };
+		FVector BoxHalfExtent{ 
+			BoxCollisionLength, BoxCollisionLength, WeaponDistance.Size() / 2
+		};
 		FCollisionShape CollisionBox{ FCollisionShape::MakeBox(BoxHalfExtent) }; 
 
 		// list of actors to ignore
@@ -94,8 +96,6 @@ void UTraceComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 	}
 	
 	if (AllResults.Num() <= 0) { return; }
-
-	// To Fix
 
 	float CharacterDamage = 0.0f;
 	ICombat* CombatRef = Cast<ICombat>(PawnRef);
