@@ -105,8 +105,18 @@ void ABossCharacter::ReceiveDamage(float Damage)
 		ECollisionEnabled::NoCollision
 	); 
 
-	PlayAnimMontage(DeathAnimation);
+	float Duration = PlayAnimMontage(DeathAnimation);
 
+	FTimerHandle DestroyTimerHandler;
+
+	GetWorldTimerManager().SetTimer(
+		DestroyTimerHandler,
+		this,
+		&ABossCharacter::HandleDeath,
+		Duration,
+		false
+	);
+	
 	ACharacter* CharacterRef{
 		GetWorld()->GetFirstPlayerController()->GetCharacter()
 	};
@@ -177,4 +187,10 @@ void ABossCharacter::HandlePlayerZeroHealth()
 		TEXT("CurrentState"),
 		EEnemyState::Idle
 	);
+}
+
+void ABossCharacter::HandleDeath()
+{
+	WidgetInstance->RemoveFromViewport();
+	Destroy();
 }

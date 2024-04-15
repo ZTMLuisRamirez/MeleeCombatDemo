@@ -81,5 +81,8 @@ public:
 
 	UFUNCTION()
 	void HandlePlayerZeroHealth();
+
+	UFUNCTION()
+	void HandleDeath();
 };
  
