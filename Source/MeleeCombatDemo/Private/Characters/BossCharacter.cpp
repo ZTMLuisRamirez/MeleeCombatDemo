@@ -14,6 +14,7 @@
 #include "Blueprint/UserWidget.h"
 #include "UI/BossWidget.h"
 #include "Components/WidgetComponent.h"
+#include "Characters/MainCharacter.h"
 
 // Sets default values
 ABossCharacter::ABossCharacter()
@@ -38,11 +39,24 @@ void ABossCharacter::BeginPlay()
 		InitialState
 	);
 
+	GetController<AAIController>()->GetBlackboardComponent()->SetValueAsBool(
+		TEXT("IsPlayerDead"),
+		false
+	);
+
 	LockonWidget = FindComponentByClass<UWidgetComponent>();
 
 	WidgetInstance = Cast<UBossWidget>(UUserWidget::CreateWidgetInstance(
 		*GetWorld(), WidgetTemplate, "Boss HUD"
 	));
+
+	// Watch for player death
+	GetWorld()->GetFirstPlayerController()
+		->GetPawn<AMainCharacter>()
+		->StatsComp
+		->OnZeroHealthDelegate.AddDynamic(
+			this, &ABossCharacter::HandlePlayerZeroHealth
+		);
 }
 
 // Called every frame
@@ -150,4 +164,17 @@ void ABossCharacter::OnDeselect()
 bool ABossCharacter::IsDead()
 {
 	return StatsComp->Stats[StatType::Health] <= 0;
+}
+
+void ABossCharacter::HandlePlayerZeroHealth()
+{
+	GetController<AAIController>()->GetBlackboardComponent()->SetValueAsBool(
+		TEXT("IsPlayerDead"),
+		true
+	);
+
+	GetController<AAIController>()->GetBlackboardComponent()->SetValueAsEnum(
+		TEXT("CurrentState"),
+		EEnemyState::Idle
+	);
 }

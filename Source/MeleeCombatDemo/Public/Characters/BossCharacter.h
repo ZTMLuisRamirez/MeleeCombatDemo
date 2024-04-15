@@ -78,5 +78,8 @@ public:
 	virtual void OnDeselect() override;
 
 	virtual bool IsDead() override;
+
+	UFUNCTION()
+	void HandlePlayerZeroHealth();
 };
  
