@@ -17,7 +17,7 @@ class MELEECOMBATDEMO_API UPlayerAnimInstance : public UAnimInstance
 	APawn* PawnRef;
 
 protected:
-	virtual void NativeInitializeAnimation() override;
+	virtual void NativeBeginPlay() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float VerticalSpeed{ 0.f };

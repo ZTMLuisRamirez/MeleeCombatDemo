@@ -26,7 +26,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UTraceComponent* TraceComp;
 
-	virtual void NativeInitializeAnimation() override;
+	virtual void NativeBeginPlay() override;
 
 	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds) override;
 };

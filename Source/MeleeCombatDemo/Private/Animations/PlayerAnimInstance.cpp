@@ -5,9 +5,9 @@
 #include "GameFramework/PawnMovementComponent.h"
 #include "Characters/MainCharacter.h"
 
-void UPlayerAnimInstance::NativeInitializeAnimation()
+void UPlayerAnimInstance::NativeBeginPlay()
 {
-	Super::NativeInitializeAnimation();
+	Super::NativeBeginPlay();
 
 	PawnRef = TryGetPawnOwner();
 

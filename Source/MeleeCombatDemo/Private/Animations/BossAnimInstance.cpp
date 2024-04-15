@@ -5,9 +5,9 @@
 #include "Combat/EnemyProjectileComponent.h"
 #include "Combat/TraceComponent.h"
 
-void UBossAnimInstance::NativeInitializeAnimation()
+void UBossAnimInstance::NativeBeginPlay()
 {
-	Super::NativeInitializeAnimation();
+	Super::NativeBeginPlay();
 
 	ActorRef = TryGetPawnOwner();
 
