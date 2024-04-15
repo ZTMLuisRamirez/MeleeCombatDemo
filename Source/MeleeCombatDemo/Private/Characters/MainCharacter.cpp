@@ -115,3 +115,8 @@ float AMainCharacter::GetCharacterHealth()
 {
 	return StatsComp->Stats[StatType::Health]; 
 }
+
+bool AMainCharacter::IsRolling()
+{
+	return PlayerActionsComp->bIsRollActive;
+}

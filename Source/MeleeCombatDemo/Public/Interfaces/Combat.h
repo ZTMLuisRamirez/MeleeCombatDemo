@@ -38,4 +38,6 @@ public:
 	virtual bool IsPlayingBlockAnimation() { return false; }
 
 	virtual float GetCharacterHealth() { return 0.0f; }
+
+	virtual bool IsRolling() { return false; }
 };

@@ -38,9 +38,6 @@ class MELEECOMBATDEMO_API UPlayerActionsComponent : public UActorComponent
 
 	IMainPlayer* IPlayerRef;
 
-	UPROPERTY(VisibleAnywhere)
-	bool bCanRoll{ true };
-
 public:
 	UPROPERTY(BlueprintAssignable)
 	FOnSprintSignature OnSprintDelegate;
@@ -56,6 +53,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FOnRollCompleteSignature OnRollCompleteDelegate;
+
+	UPROPERTY(VisibleAnywhere)
+	bool bIsRollActive{ false };
 
 protected:
 	// Called when the game starts

@@ -42,13 +42,13 @@ void UPlayerActionsComponent::Walk()
 
 void UPlayerActionsComponent::Roll()
 {
-	if (!bCanRoll) { return; }
+	if (bIsRollActive) { return; }
 
 	if (!IPlayerRef->HasEnoughStamina(RollCost)) { return; }
 
 	if (OwnerRef->GetCharacterMovement()->Velocity.Length() < 1) { return; }
 
-	bCanRoll = false;
+	bIsRollActive = true;
 
 	OnRollDelegate.Broadcast(RollCost);
 
@@ -73,7 +73,7 @@ void UPlayerActionsComponent::Roll()
 
 void UPlayerActionsComponent::FinishRollAnim()
 {
-	bCanRoll = true;
+	bIsRollActive = false;
 
 	OnRollCompleteDelegate.Broadcast();
 }

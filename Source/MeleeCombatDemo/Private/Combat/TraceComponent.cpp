@@ -111,6 +111,10 @@ void UTraceComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 	{
 		AActor* TargetActor = Hit.GetActor();
 
+		ICombat* ITargetCombatRef = Cast<ICombat>(TargetActor);
+
+		if (ITargetCombatRef && ITargetCombatRef->IsRolling()){ continue; }
+
 		if (IgnoreTargets.Contains(TargetActor) || TargetActor->ActorHasTag(IgnoreActorTag)) { continue; }
 		
 		TargetActor->TakeDamage(
