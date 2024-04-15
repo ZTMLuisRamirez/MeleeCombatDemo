@@ -23,8 +23,11 @@ class MELEECOMBATDEMO_API UBTT_MeleeAttack : public UBTTaskNode
 
 	FScriptDelegate MoveDelegate;
 
+	// This property should be set to 350
+	// at a minimum. Otherwise, the enemy
+	// will stutter during rotations.
 	UPROPERTY(EditAnywhere)
-	double AttackRadius{ 300.0f };
+	double AttackRadius{ 350.0f };
 
 	UPROPERTY(EditAnywhere)
 	float AcceptableRadius{ 100.0f };
@@ -37,4 +40,5 @@ protected:
 
 	virtual void TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
 
+	virtual EBTNodeResult::Type AbortTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 };

@@ -79,6 +79,20 @@ void UBTT_MeleeAttack::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMe
 	FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
 }
 
+EBTNodeResult::Type UBTT_MeleeAttack::AbortTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
+{
+	AAIController* AIController{ OwnerComp.GetAIOwner() };
+
+	AIController->StopMovement();
+
+	if (OwnerComp.GetAIOwner()->ReceiveMoveCompleted.Contains(MoveDelegate))
+	{
+		OwnerComp.GetAIOwner()->ReceiveMoveCompleted.Remove(MoveDelegate);
+	}
+
+	return EBTNodeResult::Aborted;
+}
+
 void UBTT_MeleeAttack::FinishAttackTask()
 {
 	bIsFinished = true;
