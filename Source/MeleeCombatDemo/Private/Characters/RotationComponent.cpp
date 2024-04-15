@@ -39,14 +39,14 @@ void URotationComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 	FRotator LookAtRotation = UKismetMathLibrary::FindLookAtRotation(OwnerLoc, PlayerLoc);
 	FRotator CurrentRotation = ActorRef->GetActorRotation();
 
-	double NewYaw = UKismetMathLibrary::FInterpTo_Constant(
-		CurrentRotation.Yaw, LookAtRotation.Yaw, DeltaTime, Speed
+	FRotator NewRotation = UKismetMathLibrary::RInterpTo_Constant(
+		LookAtRotation, CurrentRotation, DeltaTime, Speed
 	);
 
-	FRotator NewRotation{ 
-		CurrentRotation.Pitch, NewYaw, CurrentRotation.Roll 
+	FRotator NewYawOnlyRotation{ 
+		CurrentRotation.Pitch, NewRotation.Yaw, CurrentRotation.Roll
 	};
 
-	GetOwner()->SetActorRotation(NewRotation);
+	ActorRef->SetActorRotation(NewRotation);
 }
 
