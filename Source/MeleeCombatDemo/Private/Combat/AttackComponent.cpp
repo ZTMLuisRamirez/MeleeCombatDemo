@@ -30,6 +30,8 @@ void UAttackComponent::ComboAttack()
 
 	if (!bCanAttack) { return; }
 
+	if (IFighterRef->IsRolling()) { return; }
+
 	bCanAttack = false;
 
 	int32 MaxCombo = AttackAnimations.Num();
