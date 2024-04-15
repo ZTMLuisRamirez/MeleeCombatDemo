@@ -4,14 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Interfaces/TargetableInterface.h"
 #include "Interfaces/Combat.h"
-#include "Interfaces/AttackTracing.h"
+#include "Interfaces/Enemy.h"
 #include "EnemyCharacter.generated.h"
 
 
 UCLASS()
-class MELEECOMBATDEMO_API AEnemyCharacter : public ACharacter, public ITargetableInterface, public ICombat, public IAttackTracing
+class MELEECOMBATDEMO_API AEnemyCharacter : public ACharacter, public ICombat, public IEnemy
 {
 	GENERATED_BODY()
 
