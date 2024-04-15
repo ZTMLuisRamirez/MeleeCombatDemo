@@ -17,7 +17,6 @@ void UBossWidget::UpdateHealthBar(float CurrentVal, float MaxVal)
 	float Percentage{ CurrentVal / MaxVal };
 
 	HealthBar->SetPercent(Percentage);
-	
 }
 
 void UBossWidget::UpdateBossNameWidget(FText NewName)
