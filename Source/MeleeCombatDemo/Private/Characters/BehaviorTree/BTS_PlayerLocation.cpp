@@ -12,7 +12,14 @@ void UBTS_PlayerLocation::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* Nod
 		->GetActorLocation();
 
 	double Distance = FVector::Dist(CurrentLocation, PlayerLocation);
+
 	bool IsWithinRange = Distance < Range;
+
+	UE_LOG(
+		LogClass, Warning, TEXT("Distance: %f, IsWithinRange: %s"), 
+		Distance,
+		IsWithinRange ? TEXT("Yes") : TEXT("No")
+	);
 
 	OwnerComp.GetBlackboardComponent()->SetValueAsBool(
 		BlackboardKey.SelectedKeyName,
