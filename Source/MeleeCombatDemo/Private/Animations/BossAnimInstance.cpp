@@ -27,3 +27,8 @@ void UBossAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSeconds)
 	VerticalSpeed = static_cast<float>(Velocity.Length());
 }
 
+void UBossAnimInstance::HandleTravelFwdStateEntry()
+{
+	
+}
+

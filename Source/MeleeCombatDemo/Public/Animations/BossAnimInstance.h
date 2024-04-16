@@ -29,4 +29,13 @@ protected:
 	virtual void NativeBeginPlay() override;
 
 	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds) override;
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bIsCharging{ false };
+
+	bool bIsChargingAndMoving{ false };
+
+	UFUNCTION(BlueprintCallable)
+	void HandleTravelFwdStateEntry();
 };

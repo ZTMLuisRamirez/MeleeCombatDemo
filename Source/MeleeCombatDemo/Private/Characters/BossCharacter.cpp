@@ -44,6 +44,16 @@ void ABossCharacter::BeginPlay()
 		false
 	);
 
+	GetController<AAIController>()->GetBlackboardComponent()->SetValueAsFloat(
+		TEXT("ChargeThreshold"),
+		0.9f
+	);
+
+	GetController<AAIController>()->GetBlackboardComponent()->SetValueAsBool(
+		TEXT("IsCharging"),
+		false
+	);
+
 	LockonWidget = FindComponentByClass<UWidgetComponent>();
 
 	WidgetInstance = Cast<UBossWidget>(UUserWidget::CreateWidgetInstance(

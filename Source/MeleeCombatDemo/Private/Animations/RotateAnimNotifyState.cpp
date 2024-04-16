@@ -13,8 +13,11 @@ void URotateAnimNotifyState::NotifyBegin(
 {
 	Super::NotifyBegin(MeshComp, Animation, TotalDuration, EventReference);
 
-	URotationComponent* RotationComp = MeshComp->GetOwner() 
-		->FindComponentByClass<URotationComponent>();
+	AActor* ActorRef = MeshComp->GetOwner();
+
+	if (!IsValid(ActorRef)) { return; }
+
+	URotationComponent* RotationComp = ActorRef->FindComponentByClass<URotationComponent>();
 
 	if (!IsValid(RotationComp)) { return; }
 
@@ -29,10 +32,13 @@ void URotateAnimNotifyState::NotifyEnd(
 {
 	Super::NotifyEnd(MeshComp, Animation, EventReference);
 
-	URotationComponent* RotationComp = MeshComp->GetOwner()
-		->FindComponentByClass<URotationComponent>();
+	AActor* ActorRef = MeshComp->GetOwner(); 
 
-	if (!IsValid(RotationComp)) { return; }
+	if (!IsValid(ActorRef)) { return; } 
+
+	URotationComponent* RotationComp = ActorRef->FindComponentByClass<URotationComponent>();
+
+	if (!IsValid(RotationComp)) { return; } 
 
 	RotationComp->bCanRotate = false;
 }
