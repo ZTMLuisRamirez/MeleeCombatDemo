@@ -5,8 +5,8 @@
 #include "AIController.h"
 #include "GameFramework/Character.h"
 #include "Animations/BossAnimInstance.h"
-#include "Interfaces/Enemy.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 UBTT_ChargeAttack::UBTT_ChargeAttack()
 {
@@ -58,6 +58,8 @@ void UBTT_ChargeAttack::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeM
 		false
 	);
 
+	CharacterRef->GetCharacterMovement()->MaxWalkSpeed = OriginalWalkSpeed;
+
 	FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
 }
 
@@ -79,8 +81,8 @@ void UBTT_ChargeAttack::ChargeAtPlayer()
 	);
 	AIController->ReceiveMoveCompleted.AddUnique(ChargeCompleteDelegate);
 
-	// TO DO: Work on Speed
-	IEnemy* CombatRef = Cast<IEnemy>(CharacterRef);
+	OriginalWalkSpeed = CharacterRef->GetCharacterMovement()->MaxWalkSpeed;
+	CharacterRef->GetCharacterMovement()->MaxWalkSpeed = ChargeSpeed;
 }
 
 void UBTT_ChargeAttack::HandleChargeComplete()

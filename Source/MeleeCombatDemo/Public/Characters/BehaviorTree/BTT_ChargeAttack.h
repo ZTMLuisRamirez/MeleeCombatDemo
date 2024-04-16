@@ -27,9 +27,14 @@ class MELEECOMBATDEMO_API UBTT_ChargeAttack : public UBTTask_BlackboardBase
 
 	bool bIsFinished{ false };
 
+	float OriginalWalkSpeed;
+
 protected:
 	UPROPERTY(EditAnywhere)
 	UAnimMontage* MoveAnim;
+
+	UPROPERTY(EditAnywhere)
+	float ChargeSpeed{ 2000.0f };
 
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 
